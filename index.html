@@ -210,7 +210,7 @@ title: little messages
 
   #pixel-canvas {
     display: grid;
-    grid-template-columns: repeat(32, 1fr);
+    grid-template-columns: repeat(48, 1fr);
     gap: 1px;
     background: #0a0804;
     border: 0.5px solid var(--border);
@@ -437,7 +437,7 @@ title: little messages
   let selectedGraphic = 'smiley';
   let currentTool = 'draw';
   let isDrawing = false;
-  let pixelData = new Array(1024).fill(0);
+  let pixelData = new Array(2112).fill(0); // new 48x44
 
   // — Module selection —
   function selectModule(card) {
@@ -468,7 +468,7 @@ title: little messages
   function buildCanvas() {
     const canvas = document.getElementById('pixel-canvas');
     canvas.innerHTML = '';
-    for (let i = 0; i < 1024; i++) {
+    for (let i = 0; i < 2112; i++) {
       const px = document.createElement('div');
       px.className = 'pixel';
       px.dataset.index = i;
