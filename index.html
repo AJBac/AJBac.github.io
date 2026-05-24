@@ -378,13 +378,8 @@ title: little messages
 
   <div class="section">
     <span class="section-label">graphic</span>
-    <div class="graphic-options">
-      <span class="graphic-pill selected" data-graphic="smiley" onclick="selectGraphic(this)">smiley</span>
-      <span class="graphic-pill" data-graphic="heart" onclick="selectGraphic(this)">heart</span>
-      <span class="graphic-pill" data-graphic="custom" onclick="selectGraphic(this)">draw your own</span>
-    </div>
 
-    <div class="pixel-editor-wrap" id="pixel-editor">
+    <div class="pixel-editor-wrap visible" id="pixel-editor">
       <div class="pixel-toolbar">
         <button class="tool-btn active" id="btn-draw" onclick="setTool('draw')">draw</button>
         <button class="tool-btn" id="btn-erase" onclick="setTool('erase')">erase</button>
@@ -434,7 +429,7 @@ title: little messages
   };
 
   let selectedBin = '6a0b29bf6877513b27911a0f';
-  let selectedGraphic = 'smiley';
+  let selectedGraphic = 'custom';
   let currentTool = 'draw';
   let isDrawing = false;
   let pixelData = new Array(2112).fill(0); // new 48x44
@@ -447,6 +442,7 @@ title: little messages
     selectedBin = card.dataset.bin;
     const name = card.querySelector('.module-name').textContent;
     document.getElementById('send-btn').textContent = `send to ${name}`;
+    buildCanvas();
     loadExistingData();
   }
 
