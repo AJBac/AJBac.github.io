@@ -319,19 +319,19 @@ title: little messages
 <div class="page">
   <header>
     <h1>little messages</h1>
-    <p class="subtitle">send something warm to a module near you</p>
+    <p class="subtitle">forever & always 🫶</p>
   </header>
 
   <div class="section">
     <span class="section-label">send to</span>
     <div class="modules-grid">
-      <div class="module-card selected" data-bin="6a0b29bf6877513b27911a0f" onclick="selectModule(this)">
+      <div class="module-card selected" data-bin-key="BIN_SOFIA" onclick="selectModule(this)">
         <p class="module-name">Sofia Module</p>
         <p class="module-status"><span class="status-dot"></span> online</p>
       </div>
-      <div class="module-card inactive" data-bin="">
+      <div class="module-card" data-bin-key="BIN_AJ" onclick="selectModule(this)">
         <p class="module-name">AJ Module</p>
-        <p class="module-status"><span class="status-dot off"></span> coming soon</p>
+        <p class="module-status"><span class="status-dot"></span> online</p>
       </div>
     </div>
   </div>
@@ -396,13 +396,18 @@ title: little messages
 </div>
 
 <script>
+  // ─── config ────────────────────────────────────────────────────────────────
   const JSONBIN_API_KEY = '$2a$10$lkdJWDP2zV1O4E3MYb4/uO3FevPaOvIAFIr1YOJJKHcGHQaWIGW3q';
+  const BIN_SOFIA = '6a0b29bf6877513b27911a0f';
+  const BIN_AJ    = 'YOUR_AJ_BIN_ID_HERE';
+  // ───────────────────────────────────────────────────────────────────────────
 
   const modules = {
-    '6a0b29bf6877513b27911a0f': { name: 'Sofia Module', countdownTarget: 0, countdownLabel: '' }
+    [BIN_SOFIA]: { name: 'Sofia Module', countdownTarget: 0, countdownLabel: '' },
+    [BIN_AJ]:    { name: 'AJ Module',    countdownTarget: 0, countdownLabel: '' },
   };
 
-  let selectedBin = '6a0b29bf6877513b27911a0f';
+  let selectedBin = BIN_SOFIA;
   let currentTool = 'draw';
   let isDrawing = false;
   let pixelData = new Array(2112).fill(0);
@@ -469,9 +474,18 @@ title: little messages
     if (card.classList.contains('inactive')) return;
     document.querySelectorAll('.module-card').forEach(c => c.classList.remove('selected'));
     card.classList.add('selected');
-    selectedBin = card.dataset.bin;
+
+    const binKey = card.dataset.binKey;
+    selectedBin = window[binKey]; // resolves BIN_SOFIA or BIN_AJ constant
+
     const name = card.querySelector('.module-name').textContent;
     document.getElementById('send-btn').textContent = `send to ${name}`;
+
+    // reset countdown toggle + fields for the newly selected module
+    document.getElementById('countdown-toggle').checked = false;
+    document.getElementById('countdown-fields').classList.remove('visible');
+    document.getElementById('toggle-label').textContent = 'keep existing countdown';
+
     loadExistingData();
   }
 
@@ -496,7 +510,7 @@ title: little messages
       if (res.ok) {
         const data = await res.json();
         modules[selectedBin].countdownTarget = data.countdown_target || 0;
-        modules[selectedBin].countdownLabel = data.countdown_label || '';
+        modules[selectedBin].countdownLabel  = data.countdown_label  || '';
         if (data.countdown_target) {
           const d = new Date(data.countdown_target * 1000);
           document.getElementById('countdown-date').value = d.toISOString().split('T')[0];
@@ -509,11 +523,11 @@ title: little messages
   }
 
   async function sendMessage() {
-    const sender = document.getElementById('sender').value.trim();
+    const sender  = document.getElementById('sender').value.trim();
     const message = document.getElementById('message').value.trim();
 
-    if (!sender) { showStatus('please enter your name', 'error'); return; }
-    if (!message) { showStatus('please enter a message', 'error'); return; }
+    if (!sender)  { showStatus('please enter your name',    'error'); return; }
+    if (!message) { showStatus('please enter a message',    'error'); return; }
 
     const btn = document.getElementById('send-btn');
     btn.disabled = true;
@@ -521,13 +535,13 @@ title: little messages
 
     const updateCountdown = document.getElementById('countdown-toggle').checked;
     let countdownTarget = modules[selectedBin].countdownTarget;
-    let countdownLabel = modules[selectedBin].countdownLabel;
+    let countdownLabel  = modules[selectedBin].countdownLabel;
 
     if (updateCountdown) {
-      const dateVal = document.getElementById('countdown-date').value;
+      const dateVal  = document.getElementById('countdown-date').value;
       const labelVal = document.getElementById('countdown-label').value.trim();
-      if (dateVal) countdownTarget = Math.floor(new Date(dateVal).getTime() / 1000);
-      if (labelVal) countdownLabel = labelVal;
+      if (dateVal)  countdownTarget = Math.floor(new Date(dateVal).getTime() / 1000);
+      if (labelVal) countdownLabel  = labelVal;
     }
 
     const payload = {
@@ -536,7 +550,7 @@ title: little messages
       graphic: 'custom',
       bitmap: pixelData,
       countdown_target: countdownTarget,
-      countdown_label: countdownLabel
+      countdown_label:  countdownLabel
     };
 
     try {
@@ -552,7 +566,7 @@ title: little messages
       if (res.ok) {
         showStatus('message sent!', 'success');
         modules[selectedBin].countdownTarget = countdownTarget;
-        modules[selectedBin].countdownLabel = countdownLabel;
+        modules[selectedBin].countdownLabel  = countdownLabel;
       } else {
         showStatus('something went wrong, try again', 'error');
       }
