@@ -6,8 +6,21 @@ title: little messages
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>little messages</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>for Sofia</title>
+
+<!-- PWA / iOS home screen -->
+<link rel="manifest" href="/manifest.json">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="little messages">
+<meta name="theme-color" content="#130f08">
+<link rel="apple-touch-icon" href="/icons/apple-touch-icon.png">
+
+<!-- Prevent phone number / email detection styling -->
+<meta name="format-detection" content="telephone=no">
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;1,400&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
 <style>
@@ -26,6 +39,11 @@ title: little messages
     --text-faint: #5a4020;
     --green: #6dbf7e;
     --red: #c05040;
+    /* safe area insets for iPhone notch / home indicator */
+    --sat: env(safe-area-inset-top);
+    --sab: env(safe-area-inset-bottom);
+    --sal: env(safe-area-inset-left);
+    --sar: env(safe-area-inset-right);
   }
 
   html, body {
@@ -33,7 +51,10 @@ title: little messages
     color: var(--text);
     font-family: 'Lora', Georgia, serif;
     min-height: 100vh;
+    min-height: 100dvh; /* dynamic viewport height — avoids iOS address bar gap */
     line-height: 1.6;
+    /* prevent bounce/overscroll showing white on iOS */
+    overscroll-behavior: none;
   }
 
   body { padding: 0; }
@@ -41,7 +62,8 @@ title: little messages
   .page {
     max-width: 680px;
     margin: 0 auto;
-    padding: 3rem 1.5rem 4rem;
+    /* respect safe areas when installed as PWA */
+    padding: calc(3rem + var(--sat)) calc(1.5rem + var(--sar)) calc(4rem + var(--sab)) calc(1.5rem + var(--sal));
   }
 
   header {
@@ -90,6 +112,9 @@ title: little messages
     cursor: pointer;
     transition: border-color 0.15s, background 0.15s;
     position: relative;
+    /* prevent long-press callout on iOS */
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
   }
 
   .module-card:hover:not(.inactive) { border-color: var(--border-hover); background: var(--bg3); }
@@ -129,10 +154,12 @@ title: little messages
     border-radius: 8px;
     padding: 10px 14px;
     color: var(--text);
-    font-size: 14px;
+    font-size: 16px; /* 16px prevents iOS auto-zoom on focus */
     font-family: 'Lora', Georgia, serif;
     outline: none;
     transition: border-color 0.15s;
+    -webkit-appearance: none;
+    appearance: none;
   }
 
   input[type="text"]:focus, textarea:focus { border-color: var(--amber-dim); }
@@ -178,6 +205,7 @@ title: little messages
     color: var(--text-dim);
     cursor: pointer;
     transition: border-color 0.15s, color 0.15s;
+    -webkit-tap-highlight-color: transparent;
   }
 
   .tool-btn:hover { border-color: var(--border-hover); color: var(--text); }
@@ -268,11 +296,13 @@ title: little messages
     border-radius: 8px;
     padding: 10px 14px;
     color: var(--text);
-    font-size: 14px;
+    font-size: 16px; /* prevent iOS auto-zoom */
     font-family: 'DM Mono', monospace;
     outline: none;
     transition: border-color 0.15s;
     color-scheme: dark;
+    -webkit-appearance: none;
+    appearance: none;
   }
 
   input[type="date"]:focus { border-color: var(--amber-dim); }
@@ -290,6 +320,7 @@ title: little messages
     cursor: pointer;
     transition: background 0.15s, opacity 0.15s;
     margin-top: 0.5rem;
+    -webkit-tap-highlight-color: transparent;
   }
 
   .send-btn:hover { background: #f0b050; }
@@ -326,11 +357,11 @@ title: little messages
     <span class="section-label">send to</span>
     <div class="modules-grid">
       <div class="module-card selected" data-bin-key="BIN_SOFIA" onclick="selectModule(this)">
-        <p class="module-name">Sofia Module</p>
+        <p class="module-name">Sofia's Module</p>
         <p class="module-status"><span class="status-dot"></span> online</p>
       </div>
       <div class="module-card" data-bin-key="BIN_AJ" onclick="selectModule(this)">
-        <p class="module-name">AJ Module</p>
+        <p class="module-name">AJ's Module</p>
         <p class="module-status"><span class="status-dot"></span> online</p>
       </div>
     </div>
@@ -415,6 +446,14 @@ title: little messages
   const COLS = 48;
   const ROWS = 44;
 
+  // ─── service worker registration ──────────────────────────────────────────
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('/sw.js').catch(() => {});
+    });
+  }
+
+  // ─── canvas ───────────────────────────────────────────────────────────────
   function buildCanvas() {
     const canvas = document.getElementById('pixel-canvas');
     canvas.innerHTML = '';
@@ -470,18 +509,18 @@ title: little messages
     document.querySelectorAll('.pixel').forEach(px => px.classList.add('on'));
   }
 
+  // ─── module selection ─────────────────────────────────────────────────────
   function selectModule(card) {
     if (card.classList.contains('inactive')) return;
     document.querySelectorAll('.module-card').forEach(c => c.classList.remove('selected'));
     card.classList.add('selected');
 
     const binKey = card.dataset.binKey;
-    selectedBin = window[binKey]; // resolves BIN_SOFIA or BIN_AJ constant
+    selectedBin = window[binKey];
 
     const name = card.querySelector('.module-name').textContent;
     document.getElementById('send-btn').textContent = `send to ${name}`;
 
-    // reset countdown toggle + fields for the newly selected module
     document.getElementById('countdown-toggle').checked = false;
     document.getElementById('countdown-fields').classList.remove('visible');
     document.getElementById('toggle-label').textContent = 'keep existing countdown';
@@ -502,6 +541,7 @@ title: little messages
     el.classList.toggle('warn', msg.length > 100);
   }
 
+  // ─── jsonbin ──────────────────────────────────────────────────────────────
   async function loadExistingData() {
     try {
       const res = await fetch(`https://api.jsonbin.io/v3/b/${selectedBin}/latest`, {
@@ -526,8 +566,8 @@ title: little messages
     const sender  = document.getElementById('sender').value.trim();
     const message = document.getElementById('message').value.trim();
 
-    if (!sender)  { showStatus('please enter your name',    'error'); return; }
-    if (!message) { showStatus('please enter a message',    'error'); return; }
+    if (!sender)  { showStatus('please enter your name', 'error'); return; }
+    if (!message) { showStatus('please enter a message', 'error'); return; }
 
     const btn = document.getElementById('send-btn');
     btn.disabled = true;
