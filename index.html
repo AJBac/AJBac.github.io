@@ -516,7 +516,7 @@ title: little messages
     card.classList.add('selected');
 
     const binKey = card.dataset.binKey;
-    selectedBin = window[binKey];
+    selectedBin = binKey === 'BIN_SOFIA' ? BIN_SOFIA : BIN_AJ;
 
     const name = card.querySelector('.module-name').textContent;
     document.getElementById('send-btn').textContent = `send to ${name}`;
