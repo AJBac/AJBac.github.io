@@ -1,12 +1,14 @@
 {
-  "status": "hinting",
+  "status": "guessing",
   "started_by": "aj",
   "range_max": 20,
   "secret_number": 4,
   "category": "gfdgfd",
   "spectrum_low": "bad",
   "spectrum_high": "good",
-  "hints": [],
+  "hints": [
+    "Hmm"
+  ],
   "guesses": [],
   "first_guess_wins": 0
 }
