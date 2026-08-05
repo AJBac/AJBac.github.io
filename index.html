@@ -7,39 +7,33 @@ title: little messages
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>for Sofia</title>
-
-<!-- PWA / iOS home screen -->
-<link rel="manifest" href="/manifest.json">
+<title>little messages</title>
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="little messages">
-<meta name="theme-color" content="#130f08">
+<meta name="theme-color" content="#111008">
+<link rel="manifest" href="/manifest.json">
 <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png">
-
-<!-- Prevent phone number / email detection styling -->
 <meta name="format-detection" content="telephone=no">
-
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;1,400&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
   :root {
-    --bg: #130f08;
-    --bg2: #1e1609;
-    --bg3: #271c0c;
-    --border: #3d2e14;
-    --border-hover: #6b4e22;
-    --amber: #e8a040;
-    --amber-dim: #a06820;
-    --text: #f0e0c0;
-    --text-dim: #9a7a50;
-    --text-faint: #5a4020;
-    --green: #6dbf7e;
-    --red: #c05040;
-    /* safe area insets for iPhone notch / home indicator */
+    --bg:         #111008;
+    --bg2:        #1a1609;
+    --bg3:        #22190a;
+    --border:     #382b10;
+    --border-hi:  #5c4420;
+    --amber:      #d4922a;
+    --amber-lo:   #8a5e18;
+    --text:       #e8d8b8;
+    --text-mid:   #8a7050;
+    --text-lo:    #4a3820;
+    --green:      #5a9e6a;
+    --red:        #9e4a3a;
     --sat: env(safe-area-inset-top);
     --sab: env(safe-area-inset-bottom);
     --sal: env(safe-area-inset-left);
@@ -50,581 +44,1154 @@ title: little messages
     background: var(--bg);
     color: var(--text);
     font-family: 'Lora', Georgia, serif;
-    min-height: 100vh;
-    min-height: 100dvh; /* dynamic viewport height — avoids iOS address bar gap */
+    min-height: 100dvh;
     line-height: 1.6;
-    /* prevent bounce/overscroll showing white on iOS */
     overscroll-behavior: none;
   }
 
-  body { padding: 0; }
-
   .page {
-    max-width: 680px;
+    max-width: 640px;
     margin: 0 auto;
-    /* respect safe areas when installed as PWA */
-    padding: calc(3rem + var(--sat)) calc(1.5rem + var(--sar)) calc(4rem + var(--sab)) calc(1.5rem + var(--sal));
+    padding: calc(2rem + var(--sat)) calc(1.25rem + var(--sar)) calc(3rem + var(--sab)) calc(1.25rem + var(--sal));
   }
 
+  /* ── header ── */
   header {
-    margin-bottom: 2.5rem;
-    border-bottom: 0.5px solid var(--border);
-    padding-bottom: 1.5rem;
+    margin-bottom: 2rem;
   }
 
   h1 {
-    font-size: 28px;
+    font-size: 22px;
     font-weight: 400;
     color: var(--amber);
-    letter-spacing: 0.02em;
-    margin-bottom: 4px;
+    letter-spacing: 0.01em;
+    margin-bottom: 2px;
   }
 
   .subtitle {
-    font-size: 13px;
-    color: var(--text-dim);
+    font-size: 12px;
+    color: var(--text-mid);
     font-style: italic;
   }
 
-  .section { margin-bottom: 2rem; }
-
-  .section-label {
-    font-family: 'DM Mono', monospace;
-    font-size: 10px;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--text-faint);
-    margin-bottom: 10px;
-    display: block;
+  /* ── tabs ── */
+  .tabs {
+    display: flex;
+    gap: 0;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 2rem;
+    margin-top: 1.5rem;
   }
 
+  .tab {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: lowercase;
+    color: var(--text-lo);
+    padding: 8px 16px 10px;
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -1px;
+    transition: color 0.1s;
+    background: none;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+  }
+
+  .tab:hover { color: var(--text-mid); }
+  .tab.active { color: var(--amber); border-bottom-color: var(--amber); }
+
+  .tab-content { display: none; }
+  .tab-content.active { display: block; }
+
+  /* ── labels ── */
+  .label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-lo);
+    display: block;
+    margin-bottom: 8px;
+  }
+
+  .section { margin-bottom: 1.75rem; }
+
+  /* ── module cards ── */
   .modules-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 12px;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
   }
 
   .module-card {
     background: var(--bg2);
-    border: 0.5px solid var(--border);
-    border-radius: 12px;
-    padding: 1.1rem 1.25rem;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 1rem 1.1rem;
     cursor: pointer;
-    transition: border-color 0.15s, background 0.15s;
-    position: relative;
-    /* prevent long-press callout on iOS */
+    transition: border-color 0.1s;
     -webkit-touch-callout: none;
     -webkit-user-select: none;
   }
 
-  .module-card:hover:not(.inactive) { border-color: var(--border-hover); background: var(--bg3); }
-  .module-card.selected { border: 1.5px solid var(--amber); background: var(--bg3); }
-  .module-card.inactive { opacity: 0.4; cursor: not-allowed; }
+  .module-card:hover { border-color: var(--border-hi); }
+  .module-card.selected { border-color: var(--amber); }
+  .module-card.inactive { opacity: 0.35; cursor: not-allowed; }
 
   .module-name {
-    font-size: 15px;
+    font-size: 14px;
     font-weight: 500;
     color: var(--text);
-    margin-bottom: 5px;
+    margin-bottom: 4px;
   }
 
   .module-status {
     font-family: 'DM Mono', monospace;
-    font-size: 11px;
-    color: var(--text-dim);
+    font-size: 10px;
+    color: var(--text-mid);
     display: flex;
     align-items: center;
-    gap: 6px;
+    gap: 5px;
   }
 
-  .status-dot {
-    width: 6px;
-    height: 6px;
+  .dot {
+    width: 5px;
+    height: 5px;
     border-radius: 50%;
     background: var(--green);
-    flex-shrink: 0;
   }
 
-  .status-dot.off { background: var(--text-faint); }
+  .dot.off { background: var(--text-lo); }
 
-  input[type="text"], textarea {
+  /* ── inputs ── */
+  input[type="text"],
+  input[type="number"],
+  input[type="date"],
+  textarea,
+  select {
     width: 100%;
     background: var(--bg2);
-    border: 0.5px solid var(--border);
-    border-radius: 8px;
-    padding: 10px 14px;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 9px 12px;
     color: var(--text);
-    font-size: 16px; /* 16px prevents iOS auto-zoom on focus */
+    font-size: 16px;
     font-family: 'Lora', Georgia, serif;
     outline: none;
-    transition: border-color 0.15s;
+    transition: border-color 0.1s;
     -webkit-appearance: none;
     appearance: none;
+    color-scheme: dark;
   }
 
-  input[type="text"]:focus, textarea:focus { border-color: var(--amber-dim); }
+  input:focus, textarea:focus, select:focus { border-color: var(--amber-lo); }
 
   textarea {
-    min-height: 90px;
+    min-height: 80px;
     resize: vertical;
-    line-height: 1.6;
+    line-height: 1.55;
+  }
+
+  select {
+    cursor: pointer;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%234a3820'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    padding-right: 30px;
   }
 
   .char-count {
     font-family: 'DM Mono', monospace;
-    font-size: 11px;
-    color: var(--text-faint);
+    font-size: 10px;
+    color: var(--text-lo);
     text-align: right;
     margin-top: 4px;
   }
 
   .char-count.warn { color: var(--red); }
 
-  .pixel-editor-wrap {
+  /* ── pixel editor ── */
+  .editor-wrap {
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 1rem;
     background: var(--bg2);
-    border: 0.5px solid var(--border);
-    border-radius: 12px;
-    padding: 1.25rem;
   }
 
-  .pixel-toolbar {
+  .toolbar {
     display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 12px;
+    gap: 6px;
+    margin-bottom: 10px;
     flex-wrap: wrap;
   }
 
-  .tool-btn {
+  .tbtn {
     background: var(--bg3);
-    border: 0.5px solid var(--border);
-    border-radius: 6px;
-    padding: 5px 12px;
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    padding: 4px 10px;
     font-family: 'DM Mono', monospace;
-    font-size: 11px;
-    color: var(--text-dim);
+    font-size: 10px;
+    color: var(--text-mid);
     cursor: pointer;
-    transition: border-color 0.15s, color 0.15s;
+    transition: color 0.1s, border-color 0.1s;
     -webkit-tap-highlight-color: transparent;
   }
 
-  .tool-btn:hover { border-color: var(--border-hover); color: var(--text); }
-  .tool-btn.active { border-color: var(--amber); color: var(--amber); }
+  .tbtn:hover { color: var(--text); }
+  .tbtn.active { border-color: var(--amber); color: var(--amber); }
 
   #pixel-canvas {
     display: grid;
     grid-template-columns: repeat(48, 1fr);
     gap: 1px;
-    background: #0a0804;
-    border: 0.5px solid var(--border);
-    border-radius: 6px;
-    padding: 4px;
+    background: #080600;
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    padding: 3px;
     user-select: none;
     cursor: crosshair;
     touch-action: none;
     width: 100%;
   }
 
-  .pixel {
+  .px {
     aspect-ratio: 1;
-    background: #0a0804;
-    border-radius: 1px;
+    background: #080600;
   }
 
-  .pixel.on { background: var(--amber); }
+  .px.on { background: var(--amber); }
 
-  .countdown-toggle {
+  /* ── countdown toggle ── */
+  .toggle-row {
     display: flex;
     align-items: center;
     gap: 10px;
-    margin-bottom: 12px;
+    margin-bottom: 10px;
   }
 
-  .toggle-switch {
-    position: relative;
-    width: 36px;
-    height: 20px;
-    flex-shrink: 0;
-  }
+  .sw { position: relative; width: 34px; height: 18px; flex-shrink: 0; }
+  .sw input { opacity: 0; width: 0; height: 0; }
 
-  .toggle-switch input { opacity: 0; width: 0; height: 0; }
-
-  .toggle-track {
+  .sw-track {
     position: absolute;
     inset: 0;
     background: var(--bg3);
-    border: 0.5px solid var(--border);
-    border-radius: 20px;
+    border: 1px solid var(--border);
+    border-radius: 18px;
     cursor: pointer;
-    transition: background 0.15s;
   }
 
-  .toggle-track::after {
+  .sw-track::after {
     content: '';
     position: absolute;
-    left: 3px;
-    top: 3px;
-    width: 12px;
-    height: 12px;
-    background: var(--text-faint);
+    left: 2px; top: 2px;
+    width: 12px; height: 12px;
+    background: var(--text-lo);
     border-radius: 50%;
     transition: transform 0.15s, background 0.15s;
   }
 
-  .toggle-switch input:checked + .toggle-track { background: var(--bg3); border-color: var(--amber-dim); }
-  .toggle-switch input:checked + .toggle-track::after { transform: translateX(16px); background: var(--amber); }
+  .sw input:checked + .sw-track { border-color: var(--amber-lo); }
+  .sw input:checked + .sw-track::after { transform: translateX(16px); background: var(--amber); }
 
-  .toggle-label {
+  .sw-label {
     font-family: 'DM Mono', monospace;
-    font-size: 12px;
-    color: var(--text-dim);
+    font-size: 11px;
+    color: var(--text-mid);
   }
 
-  .countdown-fields { display: none; }
-  .countdown-fields.visible { display: block; }
+  .cd-fields { display: none; }
+  .cd-fields.on { display: block; }
 
-  .countdown-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
-  }
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
 
-  input[type="date"] {
-    width: 100%;
-    background: var(--bg2);
-    border: 0.5px solid var(--border);
-    border-radius: 8px;
-    padding: 10px 14px;
-    color: var(--text);
-    font-size: 16px; /* prevent iOS auto-zoom */
-    font-family: 'DM Mono', monospace;
-    outline: none;
-    transition: border-color 0.15s;
-    color-scheme: dark;
-    -webkit-appearance: none;
-    appearance: none;
-  }
-
-  input[type="date"]:focus { border-color: var(--amber-dim); }
-
+  /* ── send button ── */
   .send-btn {
     width: 100%;
-    background: var(--amber);
-    border: none;
-    border-radius: 10px;
-    padding: 14px;
-    color: var(--bg);
-    font-size: 15px;
+    background: none;
+    border: 1px solid var(--amber-lo);
+    border-radius: 4px;
+    padding: 12px;
+    color: var(--amber);
+    font-size: 14px;
     font-family: 'Lora', Georgia, serif;
-    font-weight: 500;
     cursor: pointer;
-    transition: background 0.15s, opacity 0.15s;
-    margin-top: 0.5rem;
+    transition: background 0.1s, border-color 0.1s;
+    margin-top: 0.25rem;
+    -webkit-tap-highlight-color: transparent;
+    letter-spacing: 0.02em;
+  }
+
+  .send-btn:hover { background: var(--bg2); border-color: var(--amber); }
+  .send-btn:active { opacity: 0.7; }
+  .send-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+
+  /* ── status ── */
+  .status {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    text-align: center;
+    margin-top: 10px;
+    min-height: 16px;
+    color: var(--text-mid);
+  }
+
+  .status.ok { color: var(--green); }
+  .status.err { color: var(--red); }
+
+  hr {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 1.5rem 0;
+  }
+
+  /* ── wavelength ── */
+  .game-state {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 1.25rem;
+    margin-bottom: 1.75rem;
+  }
+
+  .game-state-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-lo);
+    margin-bottom: 6px;
+    display: block;
+  }
+
+  .game-state-value {
+    font-size: 15px;
+    color: var(--text);
+  }
+
+  .game-badge {
+    display: inline-block;
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    padding: 3px 8px;
+    border-radius: 3px;
+    border: 1px solid var(--border);
+    color: var(--text-mid);
+    margin-bottom: 1rem;
+  }
+
+  .game-badge.active { border-color: var(--amber-lo); color: var(--amber); }
+  .game-badge.idle { color: var(--text-lo); }
+
+  .hint-list {
+    list-style: none;
+    margin-bottom: 1rem;
+  }
+
+  .hint-list li {
+    font-size: 13px;
+    color: var(--text-mid);
+    padding: 4px 0;
+    border-bottom: 1px solid var(--border);
+    font-style: italic;
+  }
+
+  .hint-list li:last-child { border-bottom: none; }
+
+  .guess-list {
+    list-style: none;
+    margin-bottom: 1rem;
+  }
+
+  .guess-list li {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    color: var(--text-mid);
+    padding: 3px 0;
+  }
+
+  .spectrum-display {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 1rem;
+    padding: 10px;
+    background: var(--bg3);
+    border-radius: 4px;
+    border: 1px solid var(--border);
+  }
+
+  .spectrum-end {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--text-mid);
+    flex-shrink: 0;
+  }
+
+  .spectrum-bar {
+    flex: 1;
+    height: 2px;
+    background: var(--border);
+    border-radius: 2px;
+  }
+
+  .wins-counter {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--text-lo);
+    text-align: right;
+    margin-bottom: 1rem;
+  }
+
+  .wins-counter span { color: var(--amber); }
+
+  .action-btn {
+    width: 100%;
+    background: none;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 10px;
+    color: var(--text-mid);
+    font-size: 13px;
+    font-family: 'Lora', Georgia, serif;
+    cursor: pointer;
+    transition: border-color 0.1s, color 0.1s;
+    margin-bottom: 8px;
     -webkit-tap-highlight-color: transparent;
   }
 
-  .send-btn:hover { background: #f0b050; }
-  .send-btn:active { opacity: 0.85; }
-  .send-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+  .action-btn:hover { border-color: var(--border-hi); color: var(--text); }
+  .action-btn.primary { border-color: var(--amber-lo); color: var(--amber); }
+  .action-btn.primary:hover { border-color: var(--amber); }
+  .action-btn:disabled { opacity: 0.3; cursor: not-allowed; }
 
-  .status-msg {
-    font-family: 'DM Mono', monospace;
-    font-size: 12px;
-    text-align: center;
-    margin-top: 12px;
-    min-height: 18px;
-    color: var(--text-dim);
+  .number-input-row {
+    display: flex;
+    gap: 8px;
+    align-items: flex-end;
   }
 
-  .status-msg.success { color: var(--green); }
-  .status-msg.error { color: var(--red); }
+  .number-input-row input { flex: 1; }
+  .number-input-row button { flex-shrink: 0; width: auto; padding: 9px 16px; }
 
-  .divider {
-    border: none;
-    border-top: 0.5px solid var(--border);
-    margin: 1.5rem 0;
+  .game-section-title {
+    font-size: 13px;
+    color: var(--text-mid);
+    margin-bottom: 10px;
+    font-style: italic;
   }
 </style>
 </head>
 <body>
 <div class="page">
+
   <header>
     <h1>little messages</h1>
     <p class="subtitle">forever & always 🫶</p>
   </header>
 
-  <div class="section">
-    <span class="section-label">send to</span>
-    <div class="modules-grid">
-      <div class="module-card selected" data-bin-key="BIN_SOFIA" onclick="selectModule(this)">
-        <p class="module-name">Sofia's Module</p>
-        <p class="module-status"><span class="status-dot"></span> online</p>
-      </div>
-      <div class="module-card" data-bin-key="BIN_AJ" onclick="selectModule(this)">
-        <p class="module-name">AJ's Module</p>
-        <p class="module-status"><span class="status-dot"></span> online</p>
-      </div>
-    </div>
-  </div>
+  <nav class="tabs">
+    <button class="tab active" onclick="switchTab('messages', this)">messages</button>
+    <button class="tab" onclick="switchTab('wavelength', this)">wavelength</button>
+  </nav>
 
-  <hr class="divider">
+  <!-- ══════════════════════════════════════════════════
+       MESSAGES TAB
+  ══════════════════════════════════════════════════ -->
+  <div id="tab-messages" class="tab-content active">
 
-  <div class="section">
-    <span class="section-label">your name</span>
-    <input type="text" id="sender" placeholder="who's this from?" maxlength="20">
-  </div>
-
-  <div class="section">
-    <span class="section-label">message</span>
-    <textarea id="message" placeholder="say something nice..." maxlength="120" oninput="updateCharCount()"></textarea>
-    <p class="char-count" id="char-count">0 / 120</p>
-  </div>
-
-  <hr class="divider">
-
-  <div class="section">
-    <span class="section-label">graphic</span>
-    <div class="pixel-editor-wrap">
-      <div class="pixel-toolbar">
-        <button class="tool-btn active" id="btn-draw" onclick="setTool('draw')">draw</button>
-        <button class="tool-btn" id="btn-erase" onclick="setTool('erase')">erase</button>
-        <button class="tool-btn" onclick="clearCanvas()">clear</button>
-        <button class="tool-btn" onclick="fillCanvas()">fill</button>
-      </div>
-      <div id="pixel-canvas"></div>
-    </div>
-  </div>
-
-  <hr class="divider">
-
-  <div class="section">
-    <span class="section-label">countdown</span>
-    <div class="countdown-toggle">
-      <label class="toggle-switch">
-        <input type="checkbox" id="countdown-toggle" onchange="toggleCountdown()">
-        <span class="toggle-track"></span>
-      </label>
-      <span class="toggle-label" id="toggle-label">keep existing countdown</span>
-    </div>
-    <div class="countdown-fields" id="countdown-fields">
-      <div class="countdown-row">
-        <div>
-          <span class="section-label">date</span>
-          <input type="date" id="countdown-date">
+    <div class="section">
+      <span class="label">send to</span>
+      <div class="modules-grid">
+        <div class="module-card selected" data-module="sofia" onclick="selectModule(this)">
+          <p class="module-name">Sofia's Module</p>
+          <p class="module-status"><span class="dot"></span> online</p>
         </div>
-        <div>
-          <span class="section-label">label</span>
-          <input type="text" id="countdown-label" placeholder="e.g. until christmas" maxlength="16">
+        <div class="module-card" data-module="aj" onclick="selectModule(this)">
+          <p class="module-name">AJ's Module</p>
+          <p class="module-status"><span class="dot"></span> online</p>
         </div>
       </div>
     </div>
+
+    <hr>
+
+    <div class="section">
+      <span class="label">your name</span>
+      <input type="text" id="msg-sender" placeholder="who's this from?" maxlength="20">
+    </div>
+
+    <div class="section">
+      <span class="label">message</span>
+      <textarea id="msg-text" placeholder="say something nice..." maxlength="120" oninput="updateCharCount()"></textarea>
+      <p class="char-count" id="char-count">0 / 120</p>
+    </div>
+
+    <hr>
+
+    <div class="section">
+      <span class="label">graphic</span>
+      <div class="editor-wrap">
+        <div class="toolbar">
+          <button class="tbtn active" id="btn-draw" onclick="setTool('draw')">draw</button>
+          <button class="tbtn" id="btn-erase" onclick="setTool('erase')">erase</button>
+          <button class="tbtn" onclick="clearCanvas()">clear</button>
+          <button class="tbtn" onclick="fillCanvas()">fill</button>
+        </div>
+        <div id="pixel-canvas"></div>
+      </div>
+    </div>
+
+    <hr>
+
+    <div class="section">
+      <span class="label">countdown</span>
+      <div class="toggle-row">
+        <label class="sw">
+          <input type="checkbox" id="cd-toggle" onchange="toggleCountdown()">
+          <span class="sw-track"></span>
+        </label>
+        <span class="sw-label" id="cd-toggle-label">keep existing</span>
+      </div>
+      <div class="cd-fields" id="cd-fields">
+        <div class="two-col">
+          <div>
+            <span class="label">date</span>
+            <input type="date" id="cd-date">
+          </div>
+          <div>
+            <span class="label">label</span>
+            <input type="text" id="cd-label" placeholder="e.g. until christmas" maxlength="16">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <hr>
+
+    <button class="send-btn" id="send-btn" onclick="sendMessage()">send to Sofia's Module</button>
+    <p class="status" id="msg-status"></p>
+
   </div>
 
-  <hr class="divider">
+  <!-- ══════════════════════════════════════════════════
+       WAVELENGTH TAB
+  ══════════════════════════════════════════════════ -->
+  <div id="tab-wavelength" class="tab-content">
 
-  <button class="send-btn" id="send-btn" onclick="sendMessage()">send to Sofia Module</button>
-  <p class="status-msg" id="status-msg"></p>
-</div>
+    <div id="wl-loading" style="color: var(--text-lo); font-family: 'DM Mono', monospace; font-size: 12px;">
+      loading game state...
+    </div>
+
+    <div id="wl-content" style="display:none">
+
+      <div class="wins-counter">first-guess wins: <span id="wl-wins">0</span></div>
+
+      <!-- idle: no active game -->
+      <div id="wl-idle" style="display:none">
+        <p class="game-section-title">no game in progress</p>
+        <div class="section">
+          <span class="label">you are</span>
+          <select id="wl-starter">
+            <option value="sofia">Sofia</option>
+            <option value="aj">AJ</option>
+          </select>
+        </div>
+        <div class="section">
+          <span class="label">number range</span>
+          <select id="wl-range">
+            <option value="10">1 – 10</option>
+            <option value="20">1 – 20</option>
+            <option value="100">1 – 100</option>
+          </select>
+        </div>
+        <button class="action-btn primary" onclick="startGame()">start a game</button>
+        <p class="status" id="wl-idle-status"></p>
+      </div>
+
+      <!-- waiting for category: guesser sets up the spectrum -->
+      <div id="wl-awaiting-category" style="display:none">
+        <span class="game-badge active">game in progress</span>
+        <p class="game-section-title">your partner picked a number — give them something to work with</p>
+        <div class="section">
+          <span class="label">you are</span>
+          <select id="wl-cat-player">
+            <option value="sofia">Sofia</option>
+            <option value="aj">AJ</option>
+          </select>
+        </div>
+        <div class="section">
+          <span class="label">category</span>
+          <input type="text" id="wl-category" placeholder="e.g. temperature, spiciness, loudness" maxlength="40">
+        </div>
+        <div class="two-col" style="margin-bottom: 1.75rem">
+          <div>
+            <span class="label">the "1" end is...</span>
+            <input type="text" id="wl-low" placeholder="e.g. freezing" maxlength="20">
+          </div>
+          <div>
+            <span class="label" id="wl-high-label">the "10" end is...</span>
+            <input type="text" id="wl-high" placeholder="e.g. boiling" maxlength="20">
+          </div>
+        </div>
+        <button class="action-btn primary" onclick="submitCategory()">submit category</button>
+        <p class="status" id="wl-cat-status"></p>
+      </div>
+
+      <!-- hinting: number-picker gives a hint -->
+      <div id="wl-hinting" style="display:none">
+        <span class="game-badge active">game in progress</span>
+
+        <div class="game-state" id="wl-hint-spectrum-display" style="display:none">
+          <span class="game-state-label">the spectrum</span>
+          <div class="spectrum-display">
+            <span class="spectrum-end" id="wl-hint-low"></span>
+            <div class="spectrum-bar"></div>
+            <span class="spectrum-end" id="wl-hint-high"></span>
+          </div>
+          <span class="game-state-label">category</span>
+          <p class="game-state-value" id="wl-hint-cat" style="margin-bottom:0.5rem"></p>
+          <span class="game-state-label">your secret number</span>
+          <p class="game-state-value" id="wl-hint-number" style="font-family:'DM Mono',monospace; color: var(--amber)"></p>
+        </div>
+
+        <div class="section">
+          <span class="label">you are</span>
+          <select id="wl-hint-player">
+            <option value="sofia">Sofia</option>
+            <option value="aj">AJ</option>
+          </select>
+        </div>
+
+        <div id="wl-previous-hints" style="display:none; margin-bottom: 1rem">
+          <span class="label">hints so far</span>
+          <ul class="hint-list" id="wl-hint-list"></ul>
+        </div>
+
+        <div id="wl-previous-guesses" style="display:none; margin-bottom: 1rem">
+          <span class="label">guesses so far</span>
+          <ul class="guess-list" id="wl-guess-list"></ul>
+        </div>
+
+        <div class="section">
+          <span class="label">your hint</span>
+          <input type="text" id="wl-hint-input" placeholder="give them a clue..." maxlength="60">
+        </div>
+        <button class="action-btn primary" onclick="submitHint()">send hint</button>
+        <p class="status" id="wl-hint-status"></p>
+      </div>
+
+      <!-- guessing: guesser responds with a number -->
+      <div id="wl-guessing" style="display:none">
+        <span class="game-badge active">game in progress</span>
+
+        <div class="game-state">
+          <span class="game-state-label">the spectrum</span>
+          <div class="spectrum-display">
+            <span class="spectrum-end" id="wl-guess-low"></span>
+            <div class="spectrum-bar"></div>
+            <span class="spectrum-end" id="wl-guess-high"></span>
+          </div>
+          <span class="game-state-label">category</span>
+          <p class="game-state-value" id="wl-guess-cat" style="margin-bottom:0.5rem"></p>
+          <span class="game-state-label">range</span>
+          <p class="game-state-value" id="wl-guess-range" style="font-family:'DM Mono',monospace; font-size:13px; color: var(--text-mid)"></p>
+        </div>
+
+        <div style="margin-bottom: 1rem">
+          <span class="label">hints</span>
+          <ul class="hint-list" id="wl-guess-hint-list"></ul>
+        </div>
+
+        <div id="wl-guess-prev" style="display:none; margin-bottom: 1rem">
+          <span class="label">your previous guesses</span>
+          <ul class="guess-list" id="wl-guess-prev-list"></ul>
+        </div>
+
+        <div class="section">
+          <span class="label">your guess</span>
+          <div class="number-input-row">
+            <input type="number" id="wl-guess-input" placeholder="enter a number" min="1">
+            <button class="action-btn primary" style="margin-bottom:0" onclick="submitGuess()">guess</button>
+          </div>
+        </div>
+        <p class="status" id="wl-guess-status"></p>
+      </div>
+
+      <!-- game over -->
+      <div id="wl-gameover" style="display:none">
+        <span class="game-badge" style="border-color: var(--green); color: var(--green)">correct!</span>
+        <div class="game-state">
+          <span class="game-state-label">the number was</span>
+          <p class="game-state-value" id="wl-over-number" style="font-family:'DM Mono',monospace; color:var(--amber); font-size:24px; margin-bottom:0.5rem"></p>
+          <span class="game-state-label">guesses taken</span>
+          <p class="game-state-value" id="wl-over-guesses" style="font-family:'DM Mono',monospace; font-size:13px; color:var(--text-mid)"></p>
+        </div>
+        <button class="action-btn primary" onclick="resetGame()">play again</button>
+        <p class="status" id="wl-over-status"></p>
+      </div>
+
+    </div><!-- /wl-content -->
+  </div><!-- /tab-wavelength -->
+
+</div><!-- /page -->
 
 <script>
-  // ─── config ────────────────────────────────────────────────────────────────
-  const JSONBIN_API_KEY = '$2a$10$lkdJWDP2zV1O4E3MYb4/uO3FevPaOvIAFIr1YOJJKHcGHQaWIGW3q';
-  const BIN_SOFIA = '6a0b29bf6877513b27911a0f';
-  const BIN_AJ    = '6a0b29cf6877513b27911abe';
-  // ───────────────────────────────────────────────────────────────────────────
+// ─── config ────────────────────────────────────────────────────────────────
+const WORKER = 'https://wild-queen-9847.ajbacolor4.workers.dev';
 
-  const modules = {
-    [BIN_SOFIA]: { name: 'Sofia Module', countdownTarget: 0, countdownLabel: '' },
-    [BIN_AJ]:    { name: 'AJ Module',    countdownTarget: 0, countdownLabel: '' },
-  };
+// ─── helpers ───────────────────────────────────────────────────────────────
+async function readFile(file) {
+  const res = await fetch(`${WORKER}/data?file=${file}`);
+  if (!res.ok) throw new Error(`read ${file} failed`);
+  return res.json();
+}
 
-  let selectedBin = BIN_SOFIA;
-  let currentTool = 'draw';
-  let isDrawing = false;
-  let pixelData = new Array(2112).fill(0);
+async function writeFile(file, data) {
+  const res = await fetch(`${WORKER}/data?file=${file}`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(data)
+  });
+  if (!res.ok) throw new Error(`write ${file} failed`);
+}
 
-  const COLS = 48;
-  const ROWS = 44;
+function showStatus(id, msg, type) {
+  const el = document.getElementById(id);
+  el.textContent = msg;
+  el.className = `status ${type}`;
+}
 
-  // ─── service worker registration ──────────────────────────────────────────
-  if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-      navigator.serviceWorker.register('/sw.js').catch(() => {});
-    });
+// ─── tabs ──────────────────────────────────────────────────────────────────
+function switchTab(name, btn) {
+  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.getElementById(`tab-${name}`).classList.add('active');
+  btn.classList.add('active');
+  if (name === 'wavelength') loadGameState();
+}
+
+// ─── messages tab ──────────────────────────────────────────────────────────
+let selectedModule = 'sofia';
+let moduleData = { sofia: {}, aj: {} };
+let currentTool = 'draw';
+let isDrawing = false;
+let pixelData = new Array(2112).fill(0);
+const COLS = 48, ROWS = 44;
+
+function buildCanvas() {
+  const canvas = document.getElementById('pixel-canvas');
+  for (let i = 0; i < COLS * ROWS; i++) {
+    const px = document.createElement('div');
+    px.className = 'px';
+    px.dataset.i = i;
+    canvas.appendChild(px);
   }
+  canvas.addEventListener('mousedown', e => { isDrawing = true; paint(e); });
+  canvas.addEventListener('mousemove', e => { if (isDrawing) paint(e); });
+  window.addEventListener('mouseup', () => isDrawing = false);
+  canvas.addEventListener('touchstart', e => { e.preventDefault(); isDrawing = true; paintTouch(e); }, { passive: false });
+  canvas.addEventListener('touchmove', e => { e.preventDefault(); if (isDrawing) paintTouch(e); }, { passive: false });
+  window.addEventListener('touchend', () => isDrawing = false);
+}
 
-  // ─── canvas ───────────────────────────────────────────────────────────────
-  function buildCanvas() {
-    const canvas = document.getElementById('pixel-canvas');
-    canvas.innerHTML = '';
-    for (let i = 0; i < COLS * ROWS; i++) {
-      const px = document.createElement('div');
-      px.className = 'pixel';
-      px.dataset.index = i;
-      canvas.appendChild(px);
+function paint(e) {
+  const px = e.target.closest('.px');
+  if (!px) return;
+  const i = +px.dataset.i;
+  const v = currentTool === 'draw' ? 1 : 0;
+  pixelData[i] = v;
+  px.classList.toggle('on', v === 1);
+}
+
+function paintTouch(e) {
+  const t = e.touches[0];
+  const el = document.elementFromPoint(t.clientX, t.clientY);
+  if (el?.classList.contains('px')) {
+    const i = +el.dataset.i;
+    const v = currentTool === 'draw' ? 1 : 0;
+    pixelData[i] = v;
+    el.classList.toggle('on', v === 1);
+  }
+}
+
+function setTool(t) {
+  currentTool = t;
+  document.getElementById('btn-draw').classList.toggle('active', t === 'draw');
+  document.getElementById('btn-erase').classList.toggle('active', t === 'erase');
+}
+
+function clearCanvas() {
+  pixelData.fill(0);
+  document.querySelectorAll('.px').forEach(p => p.classList.remove('on'));
+}
+
+function fillCanvas() {
+  pixelData.fill(1);
+  document.querySelectorAll('.px').forEach(p => p.classList.add('on'));
+}
+
+function selectModule(card) {
+  document.querySelectorAll('.module-card').forEach(c => c.classList.remove('selected'));
+  card.classList.add('selected');
+  selectedModule = card.dataset.module;
+  document.getElementById('send-btn').textContent = `send to ${card.querySelector('.module-name').textContent}`;
+  document.getElementById('cd-toggle').checked = false;
+  document.getElementById('cd-fields').classList.remove('on');
+  document.getElementById('cd-toggle-label').textContent = 'keep existing';
+  loadModuleData();
+}
+
+function toggleCountdown() {
+  const on = document.getElementById('cd-toggle').checked;
+  document.getElementById('cd-fields').classList.toggle('on', on);
+  document.getElementById('cd-toggle-label').textContent = on ? 'update date' : 'keep existing';
+}
+
+function updateCharCount() {
+  const n = document.getElementById('msg-text').value.length;
+  const el = document.getElementById('char-count');
+  el.textContent = `${n} / 120`;
+  el.classList.toggle('warn', n > 100);
+}
+
+async function loadModuleData() {
+  try {
+    const data = await readFile(selectedModule);
+    moduleData[selectedModule] = data;
+    if (data.countdown_target) {
+      const d = new Date(data.countdown_target * 1000);
+      document.getElementById('cd-date').value = d.toISOString().split('T')[0];
     }
-
-    canvas.addEventListener('mousedown', e => { isDrawing = true; paintPixel(e); });
-    canvas.addEventListener('mousemove', e => { if (isDrawing) paintPixel(e); });
-    window.addEventListener('mouseup', () => isDrawing = false);
-
-    canvas.addEventListener('touchstart', e => { e.preventDefault(); isDrawing = true; paintTouch(e); }, { passive: false });
-    canvas.addEventListener('touchmove', e => { e.preventDefault(); if (isDrawing) paintTouch(e); }, { passive: false });
-    window.addEventListener('touchend', () => isDrawing = false);
-  }
-
-  function paintPixel(e) {
-    const px = e.target.closest('.pixel');
-    if (!px) return;
-    const idx = parseInt(px.dataset.index);
-    const val = currentTool === 'draw' ? 1 : 0;
-    pixelData[idx] = val;
-    px.classList.toggle('on', val === 1);
-  }
-
-  function paintTouch(e) {
-    const touch = e.touches[0];
-    const el = document.elementFromPoint(touch.clientX, touch.clientY);
-    if (el && el.classList.contains('pixel')) {
-      const idx = parseInt(el.dataset.index);
-      const val = currentTool === 'draw' ? 1 : 0;
-      pixelData[idx] = val;
-      el.classList.toggle('on', val === 1);
+    if (data.countdown_label) {
+      document.getElementById('cd-label').value = data.countdown_label;
     }
+  } catch(e) {}
+}
+
+async function sendMessage() {
+  const sender = document.getElementById('msg-sender').value.trim();
+  const message = document.getElementById('msg-text').value.trim();
+  if (!sender) { showStatus('msg-status', 'enter your name', 'err'); return; }
+  if (!message) { showStatus('msg-status', 'enter a message', 'err'); return; }
+
+  const btn = document.getElementById('send-btn');
+  btn.disabled = true;
+  showStatus('msg-status', 'sending...', '');
+
+  const existing = moduleData[selectedModule] || {};
+  const updateCd = document.getElementById('cd-toggle').checked;
+  let countdownTarget = existing.countdown_target || 0;
+  let countdownLabel = existing.countdown_label || '';
+
+  if (updateCd) {
+    const dv = document.getElementById('cd-date').value;
+    const lv = document.getElementById('cd-label').value.trim();
+    if (dv) countdownTarget = Math.floor(new Date(dv).getTime() / 1000);
+    if (lv) countdownLabel = lv;
   }
 
-  function setTool(tool) {
-    currentTool = tool;
-    document.getElementById('btn-draw').classList.toggle('active', tool === 'draw');
-    document.getElementById('btn-erase').classList.toggle('active', tool === 'erase');
-  }
-
-  function clearCanvas() {
-    pixelData.fill(0);
-    document.querySelectorAll('.pixel').forEach(px => px.classList.remove('on'));
-  }
-
-  function fillCanvas() {
-    pixelData.fill(1);
-    document.querySelectorAll('.pixel').forEach(px => px.classList.add('on'));
-  }
-
-  // ─── module selection ─────────────────────────────────────────────────────
-  function selectModule(card) {
-    if (card.classList.contains('inactive')) return;
-    document.querySelectorAll('.module-card').forEach(c => c.classList.remove('selected'));
-    card.classList.add('selected');
-
-    const binKey = card.dataset.binKey;
-    selectedBin = binKey === 'BIN_SOFIA' ? BIN_SOFIA : BIN_AJ;
-
-    const name = card.querySelector('.module-name').textContent;
-    document.getElementById('send-btn').textContent = `send to ${name}`;
-
-    document.getElementById('countdown-toggle').checked = false;
-    document.getElementById('countdown-fields').classList.remove('visible');
-    document.getElementById('toggle-label').textContent = 'keep existing countdown';
-
-    loadExistingData();
-  }
-
-  function toggleCountdown() {
-    const checked = document.getElementById('countdown-toggle').checked;
-    document.getElementById('countdown-fields').classList.toggle('visible', checked);
-    document.getElementById('toggle-label').textContent = checked ? 'update countdown date' : 'keep existing countdown';
-  }
-
-  function updateCharCount() {
-    const msg = document.getElementById('message').value;
-    const el = document.getElementById('char-count');
-    el.textContent = `${msg.length} / 120`;
-    el.classList.toggle('warn', msg.length > 100);
-  }
-
-  // ─── jsonbin ──────────────────────────────────────────────────────────────
-  async function loadExistingData() {
-    try {
-      const res = await fetch(`https://api.jsonbin.io/v3/b/${selectedBin}/latest`, {
-        headers: { 'X-Master-Key': JSONBIN_API_KEY, 'X-Bin-Meta': 'false' }
-      });
-      if (res.ok) {
-        const data = await res.json();
-        modules[selectedBin].countdownTarget = data.countdown_target || 0;
-        modules[selectedBin].countdownLabel  = data.countdown_label  || '';
-        if (data.countdown_target) {
-          const d = new Date(data.countdown_target * 1000);
-          document.getElementById('countdown-date').value = d.toISOString().split('T')[0];
-        }
-        if (data.countdown_label) {
-          document.getElementById('countdown-label').value = data.countdown_label;
-        }
-      }
-    } catch (e) {}
-  }
-
-  async function sendMessage() {
-    const sender  = document.getElementById('sender').value.trim();
-    const message = document.getElementById('message').value.trim();
-
-    if (!sender)  { showStatus('please enter your name', 'error'); return; }
-    if (!message) { showStatus('please enter a message', 'error'); return; }
-
-    const btn = document.getElementById('send-btn');
-    btn.disabled = true;
-    showStatus('sending...', '');
-
-    const updateCountdown = document.getElementById('countdown-toggle').checked;
-    let countdownTarget = modules[selectedBin].countdownTarget;
-    let countdownLabel  = modules[selectedBin].countdownLabel;
-
-    if (updateCountdown) {
-      const dateVal  = document.getElementById('countdown-date').value;
-      const labelVal = document.getElementById('countdown-label').value.trim();
-      if (dateVal)  countdownTarget = Math.floor(new Date(dateVal).getTime() / 1000);
-      if (labelVal) countdownLabel  = labelVal;
-    }
-
-    const payload = {
-      message,
-      sender,
+  try {
+    await writeFile(selectedModule, {
+      message, sender,
       graphic: 'custom',
       bitmap: pixelData,
       countdown_target: countdownTarget,
-      countdown_label:  countdownLabel
-    };
+      countdown_label: countdownLabel,
+      notification: existing.notification || ''
+    });
+    showStatus('msg-status', 'sent ✓', 'ok');
+    moduleData[selectedModule].countdown_target = countdownTarget;
+    moduleData[selectedModule].countdown_label = countdownLabel;
+  } catch(e) {
+    showStatus('msg-status', 'something went wrong', 'err');
+  }
+
+  btn.disabled = false;
+}
+
+// ─── wavelength tab ────────────────────────────────────────────────────────
+let gameState = null;
+
+function wlShow(id) {
+  ['wl-idle','wl-awaiting-category','wl-hinting','wl-guessing','wl-gameover']
+    .forEach(s => document.getElementById(s).style.display = 'none');
+  document.getElementById(id).style.display = 'block';
+}
+
+async function loadGameState() {
+  document.getElementById('wl-loading').style.display = 'block';
+  document.getElementById('wl-content').style.display = 'none';
+  try {
+    gameState = await readFile('game');
+    document.getElementById('wl-wins').textContent = gameState.first_guess_wins || 0;
+    renderGameState();
+    document.getElementById('wl-loading').style.display = 'none';
+    document.getElementById('wl-content').style.display = 'block';
+  } catch(e) {
+    document.getElementById('wl-loading').textContent = 'failed to load — try refreshing';
+  }
+}
+
+function renderGameState() {
+  const s = gameState;
+  const rangeMax = s.range_max || 10;
+
+  if (s.status === 'idle') {
+    wlShow('wl-idle');
+    return;
+  }
+
+  if (s.status === 'awaiting_category') {
+    wlShow('wl-awaiting-category');
+    document.getElementById('wl-high-label').textContent = `the "${rangeMax}" end is...`;
+    return;
+  }
+
+  if (s.status === 'hinting') {
+    wlShow('wl-hinting');
+    // show spectrum info to number picker
+    document.getElementById('wl-hint-spectrum-display').style.display = 'block';
+    document.getElementById('wl-hint-low').textContent = `1 — ${s.spectrum_low}`;
+    document.getElementById('wl-hint-high').textContent = `${rangeMax} — ${s.spectrum_high}`;
+    document.getElementById('wl-hint-cat').textContent = s.category;
+    document.getElementById('wl-hint-number').textContent = s.secret_number;
+
+    // hints list
+    const hints = s.hints || [];
+    const guesses = s.guesses || [];
+    if (hints.length > 0) {
+      document.getElementById('wl-previous-hints').style.display = 'block';
+      document.getElementById('wl-hint-list').innerHTML =
+        hints.map(h => `<li>${h}</li>`).join('');
+    }
+    if (guesses.length > 0) {
+      document.getElementById('wl-previous-guesses').style.display = 'block';
+      document.getElementById('wl-guess-list').innerHTML =
+        guesses.map(g => `<li>guess: ${g}</li>`).join('');
+    }
+    return;
+  }
+
+  if (s.status === 'guessing') {
+    wlShow('wl-guessing');
+    document.getElementById('wl-guess-low').textContent = `1 — ${s.spectrum_low}`;
+    document.getElementById('wl-guess-high').textContent = `${rangeMax} — ${s.spectrum_high}`;
+    document.getElementById('wl-guess-cat').textContent = s.category;
+    document.getElementById('wl-guess-range').textContent = `1 to ${rangeMax}`;
+
+    const hints = s.hints || [];
+    document.getElementById('wl-guess-hint-list').innerHTML =
+      hints.map(h => `<li>${h}</li>`).join('');
+
+    const guesses = s.guesses || [];
+    if (guesses.length > 0) {
+      document.getElementById('wl-guess-prev').style.display = 'block';
+      document.getElementById('wl-guess-prev-list').innerHTML =
+        guesses.map(g => `<li>↳ ${g} — too ${g < s.secret_number ? 'low' : 'high'}</li>`).join('');
+    }
+    return;
+  }
+
+  if (s.status === 'gameover') {
+    wlShow('wl-gameover');
+    document.getElementById('wl-over-number').textContent = s.secret_number;
+    const guesses = s.guesses || [];
+    document.getElementById('wl-over-guesses').textContent =
+      guesses.length === 1 ? 'got it in 1 guess!' : `got it in ${guesses.length} guesses`;
+    return;
+  }
+}
+
+async function startGame() {
+  const starter = document.getElementById('wl-starter').value;
+  const rangeMax = parseInt(document.getElementById('wl-range').value);
+  const secret = Math.floor(Math.random() * rangeMax) + 1;
+
+  showStatus('wl-idle-status', 'starting...', '');
+
+  // notify the other module
+  const otherModule = starter === 'sofia' ? 'aj' : 'sofia';
+  try {
+    const otherData = await readFile(otherModule);
+    await writeFile(otherModule, { ...otherData, notification: 'wavelength game started! check the site' });
+  } catch(e) {}
+
+  try {
+    await writeFile('game', {
+      status: 'awaiting_category',
+      started_by: starter,
+      range_max: rangeMax,
+      secret_number: secret,
+      category: '',
+      spectrum_low: '',
+      spectrum_high: '',
+      hints: [],
+      guesses: [],
+      first_guess_wins: gameState.first_guess_wins || 0
+    });
+    showStatus('wl-idle-status', 'game started!', 'ok');
+    await loadGameState();
+  } catch(e) {
+    showStatus('wl-idle-status', 'something went wrong', 'err');
+  }
+}
+
+async function submitCategory() {
+  const category = document.getElementById('wl-category').value.trim();
+  const low = document.getElementById('wl-low').value.trim();
+  const high = document.getElementById('wl-high').value.trim();
+  const player = document.getElementById('wl-cat-player').value;
+
+  if (!category || !low || !high) {
+    showStatus('wl-cat-status', 'fill in all fields', 'err');
+    return;
+  }
+
+  showStatus('wl-cat-status', 'submitting...', '');
+
+  // notify the number picker
+  const starterModule = gameState.started_by;
+  try {
+    const starterData = await readFile(starterModule);
+    await writeFile(starterModule, { ...starterData, notification: 'wavelength: your category is ready!' });
+  } catch(e) {}
+
+  try {
+    await writeFile('game', {
+      ...gameState,
+      status: 'hinting',
+      category,
+      spectrum_low: low,
+      spectrum_high: high
+    });
+    showStatus('wl-cat-status', 'submitted!', 'ok');
+    await loadGameState();
+  } catch(e) {
+    showStatus('wl-cat-status', 'something went wrong', 'err');
+  }
+}
+
+async function submitHint() {
+  const hint = document.getElementById('wl-hint-input').value.trim();
+  const player = document.getElementById('wl-hint-player').value;
+
+  if (!hint) { showStatus('wl-hint-status', 'enter a hint', 'err'); return; }
+
+  showStatus('wl-hint-status', 'sending...', '');
+
+  const hints = [...(gameState.hints || []), hint];
+
+  // notify guesser
+  const otherModule = gameState.started_by === 'sofia' ? 'aj' : 'sofia';
+  try {
+    const otherData = await readFile(otherModule);
+    await writeFile(otherModule, { ...otherData, notification: 'wavelength: new hint!' });
+  } catch(e) {}
+
+  try {
+    await writeFile('game', { ...gameState, status: 'guessing', hints });
+    showStatus('wl-hint-status', 'hint sent!', 'ok');
+    document.getElementById('wl-hint-input').value = '';
+    await loadGameState();
+  } catch(e) {
+    showStatus('wl-hint-status', 'something went wrong', 'err');
+  }
+}
+
+async function submitGuess() {
+  const guess = parseInt(document.getElementById('wl-guess-input').value);
+  if (isNaN(guess) || guess < 1 || guess > gameState.range_max) {
+    showStatus('wl-guess-status', `enter a number between 1 and ${gameState.range_max}`, 'err');
+    return;
+  }
+
+  showStatus('wl-guess-status', 'submitting...', '');
+
+  const guesses = [...(gameState.guesses || []), guess];
+  const correct = guess === gameState.secret_number;
+
+  if (correct) {
+    const firstGuessWin = guesses.length === 1;
+    const wins = (gameState.first_guess_wins || 0) + (firstGuessWin ? 1 : 0);
+
+    // notify starter
+    const starterModule = gameState.started_by;
+    try {
+      const starterData = await readFile(starterModule);
+      await writeFile(starterModule, { ...starterData, notification: firstGuessWin ? 'wavelength: correct on the first try!!' : 'wavelength: they got it!' });
+    } catch(e) {}
 
     try {
-      const res = await fetch(`https://api.jsonbin.io/v3/b/${selectedBin}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-          'X-Master-Key': JSONBIN_API_KEY
-        },
-        body: JSON.stringify(payload)
-      });
-
-      if (res.ok) {
-        showStatus('message sent!', 'success');
-        modules[selectedBin].countdownTarget = countdownTarget;
-        modules[selectedBin].countdownLabel  = countdownLabel;
-      } else {
-        showStatus('something went wrong, try again', 'error');
-      }
-    } catch (e) {
-      showStatus('connection error', 'error');
+      await writeFile('game', { ...gameState, status: 'gameover', guesses, first_guess_wins: wins });
+      await loadGameState();
+    } catch(e) {
+      showStatus('wl-guess-status', 'something went wrong', 'err');
     }
+  } else {
+    // wrong — go back to hinting
+    const starterModule = gameState.started_by;
+    try {
+      const starterData = await readFile(starterModule);
+      await writeFile(starterModule, {
+        ...starterData,
+        notification: `wavelength: they guessed ${guess} — ${guess < gameState.secret_number ? 'too low' : 'too high'}. give another hint!`
+      });
+    } catch(e) {}
 
-    btn.disabled = false;
+    try {
+      await writeFile('game', { ...gameState, status: 'hinting', guesses });
+      showStatus('wl-guess-status', `${guess < gameState.secret_number ? 'too low' : 'too high'} — your partner gets another hint`, 'err');
+      document.getElementById('wl-guess-input').value = '';
+      await loadGameState();
+    } catch(e) {
+      showStatus('wl-guess-status', 'something went wrong', 'err');
+    }
   }
+}
 
-  function showStatus(msg, type) {
-    const el = document.getElementById('status-msg');
-    el.textContent = msg;
-    el.className = `status-msg ${type}`;
+async function resetGame() {
+  showStatus('wl-over-status', 'resetting...', '');
+
+  // clear notifications
+  try {
+    const sofiaData = await readFile('sofia');
+    await writeFile('sofia', { ...sofiaData, notification: '' });
+    const ajData = await readFile('aj');
+    await writeFile('aj', { ...ajData, notification: '' });
+  } catch(e) {}
+
+  try {
+    await writeFile('game', {
+      status: 'idle',
+      started_by: '',
+      range_max: 10,
+      secret_number: 0,
+      category: '',
+      spectrum_low: '',
+      spectrum_high: '',
+      hints: [],
+      guesses: [],
+      first_guess_wins: gameState.first_guess_wins || 0
+    });
+    await loadGameState();
+  } catch(e) {
+    showStatus('wl-over-status', 'something went wrong', 'err');
   }
+}
 
-  buildCanvas();
-  loadExistingData();
+// ─── service worker ────────────────────────────────────────────────────────
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => navigator.serviceWorker.register('/sw.js').catch(() => {}));
+}
+
+// ─── init ──────────────────────────────────────────────────────────────────
+buildCanvas();
+loadModuleData();
 </script>
 </body>
 </html>
