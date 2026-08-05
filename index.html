@@ -12,28 +12,32 @@ title: little messages
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="little messages">
-<meta name="theme-color" content="#111008">
+<meta name="theme-color" content="#1a1528">
 <link rel="manifest" href="/manifest.json">
 <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png">
 <meta name="format-detection" content="telephone=no">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;1,400&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
   :root {
-    --bg:         #111008;
-    --bg2:        #1a1609;
-    --bg3:        #22190a;
-    --border:     #382b10;
-    --border-hi:  #5c4420;
-    --amber:      #d4922a;
-    --amber-lo:   #8a5e18;
-    --text:       #e8d8b8;
-    --text-mid:   #8a7050;
-    --text-lo:    #4a3820;
-    --green:      #5a9e6a;
-    --red:        #9e4a3a;
+    --bg:        #1a1528;
+    --bg2:       #231c38;
+    --bg3:       #2d2448;
+    --purple:    #7c6fe0;
+    --purple-lo: #4a4190;
+    --purple-hi: #a99ef5;
+    --amber:     #e8a840;
+    --amber-lo:  #a06820;
+    --text:      #f0ecff;
+    --text-mid:  #9890c0;
+    --text-lo:   #5a5278;
+    --border:    #2e2848;
+    --border-hi: #4a4070;
+    --green:     #5db88a;
+    --red:       #c0504a;
+    --card:      #211932;
     --sat: env(safe-area-inset-top);
     --sab: env(safe-area-inset-bottom);
     --sal: env(safe-area-inset-left);
@@ -43,65 +47,64 @@ title: little messages
   html, body {
     background: var(--bg);
     color: var(--text);
-    font-family: 'Lora', Georgia, serif;
+    font-family: 'DM Sans', system-ui, sans-serif;
     min-height: 100dvh;
-    line-height: 1.6;
+    line-height: 1.5;
     overscroll-behavior: none;
   }
 
   .page {
-    max-width: 640px;
+    max-width: 480px;
     margin: 0 auto;
-    padding: calc(2rem + var(--sat)) calc(1.25rem + var(--sar)) calc(3rem + var(--sab)) calc(1.25rem + var(--sal));
+    padding: calc(1.5rem + var(--sat)) calc(1.25rem + var(--sar)) calc(3rem + var(--sab)) calc(1.25rem + var(--sal));
   }
 
   /* ── header ── */
-  header {
-    margin-bottom: 2rem;
-  }
+  header { margin-bottom: 1.5rem; }
 
   h1 {
-    font-size: 22px;
-    font-weight: 400;
-    color: var(--amber);
-    letter-spacing: 0.01em;
+    font-size: 26px;
+    font-weight: 600;
+    color: var(--text);
+    letter-spacing: -0.02em;
     margin-bottom: 2px;
   }
 
   .subtitle {
-    font-size: 12px;
+    font-size: 13px;
     color: var(--text-mid);
     font-style: italic;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
   }
 
   /* ── tabs ── */
   .tabs {
     display: flex;
-    gap: 0;
-    border-bottom: 1px solid var(--border);
-    margin-bottom: 2rem;
-    margin-top: 1.5rem;
+    background: var(--bg2);
+    border-radius: 12px;
+    padding: 4px;
+    gap: 4px;
+    margin-bottom: 1.5rem;
   }
 
   .tab {
-    font-family: 'DM Mono', monospace;
-    font-size: 11px;
-    letter-spacing: 0.08em;
-    text-transform: lowercase;
-    color: var(--text-lo);
-    padding: 8px 16px 10px;
+    flex: 1;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-mid);
+    padding: 8px 12px;
     cursor: pointer;
-    border-bottom: 2px solid transparent;
-    margin-bottom: -1px;
-    transition: color 0.1s;
+    border-radius: 9px;
+    border: none;
     background: none;
-    border-top: none;
-    border-left: none;
-    border-right: none;
+    transition: background 0.15s, color 0.15s;
+    text-align: center;
   }
 
-  .tab:hover { color: var(--text-mid); }
-  .tab.active { color: var(--amber); border-bottom-color: var(--amber); }
+  .tab:hover { color: var(--text); }
+  .tab.active { background: var(--purple); color: #fff; }
 
   .tab-content { display: none; }
   .tab-content.active { display: block; }
@@ -114,10 +117,18 @@ title: little messages
     text-transform: uppercase;
     color: var(--text-lo);
     display: block;
-    margin-bottom: 8px;
+    margin-bottom: 6px;
   }
 
-  .section { margin-bottom: 1.75rem; }
+  .section { margin-bottom: 1.5rem; }
+
+  /* ── cards ── */
+  .card {
+    background: var(--card);
+    border-radius: 16px;
+    padding: 1.1rem 1.25rem;
+    margin-bottom: 1rem;
+  }
 
   /* ── module cards ── */
   .modules-grid {
@@ -127,25 +138,24 @@ title: little messages
   }
 
   .module-card {
-    background: var(--bg2);
-    border: 1px solid var(--border);
-    border-radius: 6px;
+    background: var(--card);
+    border: 1.5px solid transparent;
+    border-radius: 14px;
     padding: 1rem 1.1rem;
     cursor: pointer;
-    transition: border-color 0.1s;
+    transition: border-color 0.15s, background 0.15s;
     -webkit-touch-callout: none;
     -webkit-user-select: none;
   }
 
-  .module-card:hover { border-color: var(--border-hi); }
-  .module-card.selected { border-color: var(--amber); }
-  .module-card.inactive { opacity: 0.35; cursor: not-allowed; }
+  .module-card:hover { background: var(--bg3); }
+  .module-card.selected { border-color: var(--purple); background: var(--bg3); }
 
   .module-name {
     font-size: 14px;
     font-weight: 500;
     color: var(--text);
-    margin-bottom: 4px;
+    margin-bottom: 5px;
   }
 
   .module-status {
@@ -162,6 +172,7 @@ title: little messages
     height: 5px;
     border-radius: 50%;
     background: var(--green);
+    flex-shrink: 0;
   }
 
   .dot.off { background: var(--text-lo); }
@@ -174,33 +185,35 @@ title: little messages
   select {
     width: 100%;
     background: var(--bg2);
-    border: 1px solid var(--border);
-    border-radius: 4px;
-    padding: 9px 12px;
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    padding: 10px 14px;
     color: var(--text);
-    font-size: 16px;
-    font-family: 'Lora', Georgia, serif;
+    font-size: 15px;
+    font-family: 'DM Sans', sans-serif;
     outline: none;
-    transition: border-color 0.1s;
+    transition: border-color 0.15s;
     -webkit-appearance: none;
     appearance: none;
     color-scheme: dark;
   }
 
-  input:focus, textarea:focus, select:focus { border-color: var(--amber-lo); }
+  input:focus, textarea:focus, select:focus {
+    border-color: var(--purple-lo);
+  }
 
   textarea {
     min-height: 80px;
     resize: vertical;
-    line-height: 1.55;
+    line-height: 1.5;
   }
 
   select {
     cursor: pointer;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%234a3820'/%3E%3C/svg%3E");
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%235a5278'/%3E%3C/svg%3E");
     background-repeat: no-repeat;
-    background-position: right 12px center;
-    padding-right: 30px;
+    background-position: right 14px center;
+    padding-right: 34px;
   }
 
   .char-count {
@@ -215,10 +228,9 @@ title: little messages
 
   /* ── pixel editor ── */
   .editor-wrap {
-    border: 1px solid var(--border);
-    border-radius: 6px;
+    background: var(--card);
+    border-radius: 16px;
     padding: 1rem;
-    background: var(--bg2);
   }
 
   .toolbar {
@@ -229,10 +241,10 @@ title: little messages
   }
 
   .tbtn {
-    background: var(--bg3);
-    border: 1px solid var(--border);
-    border-radius: 3px;
-    padding: 4px 10px;
+    background: var(--bg2);
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    padding: 5px 12px;
     font-family: 'DM Mono', monospace;
     font-size: 10px;
     color: var(--text-mid);
@@ -241,16 +253,15 @@ title: little messages
     -webkit-tap-highlight-color: transparent;
   }
 
-  .tbtn:hover { color: var(--text); }
-  .tbtn.active { border-color: var(--amber); color: var(--amber); }
+  .tbtn:hover { color: var(--text); border-color: var(--border-hi); }
+  .tbtn.active { border-color: var(--purple); color: var(--purple-hi); }
 
   #pixel-canvas {
     display: grid;
     grid-template-columns: repeat(48, 1fr);
     gap: 1px;
-    background: #080600;
-    border: 1px solid var(--border);
-    border-radius: 3px;
+    background: #0e0b1a;
+    border-radius: 8px;
     padding: 3px;
     user-select: none;
     cursor: crosshair;
@@ -260,10 +271,11 @@ title: little messages
 
   .px {
     aspect-ratio: 1;
-    background: #080600;
+    background: #0e0b1a;
+    border-radius: 1px;
   }
 
-  .px.on { background: var(--amber); }
+  .px.on { background: var(--purple-hi); }
 
   /* ── countdown toggle ── */
   .toggle-row {
@@ -273,62 +285,89 @@ title: little messages
     margin-bottom: 10px;
   }
 
-  .sw { position: relative; width: 34px; height: 18px; flex-shrink: 0; }
+  .sw { position: relative; width: 36px; height: 20px; flex-shrink: 0; }
   .sw input { opacity: 0; width: 0; height: 0; }
 
   .sw-track {
     position: absolute;
     inset: 0;
     background: var(--bg3);
-    border: 1px solid var(--border);
-    border-radius: 18px;
+    border: 1.5px solid var(--border);
+    border-radius: 20px;
     cursor: pointer;
+    transition: border-color 0.15s;
   }
 
   .sw-track::after {
     content: '';
     position: absolute;
-    left: 2px; top: 2px;
+    left: 3px; top: 3px;
     width: 12px; height: 12px;
     background: var(--text-lo);
     border-radius: 50%;
     transition: transform 0.15s, background 0.15s;
   }
 
-  .sw input:checked + .sw-track { border-color: var(--amber-lo); }
-  .sw input:checked + .sw-track::after { transform: translateX(16px); background: var(--amber); }
+  .sw input:checked + .sw-track { border-color: var(--purple-lo); }
+  .sw input:checked + .sw-track::after { transform: translateX(16px); background: var(--purple); }
 
   .sw-label {
-    font-family: 'DM Mono', monospace;
-    font-size: 11px;
+    font-size: 13px;
     color: var(--text-mid);
   }
 
   .cd-fields { display: none; }
-  .cd-fields.on { display: block; }
+  .cd-fields.on { display: block; margin-top: 10px; }
 
   .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
 
-  /* ── send button ── */
-  .send-btn {
-    width: 100%;
-    background: none;
-    border: 1px solid var(--amber-lo);
-    border-radius: 4px;
-    padding: 12px;
-    color: var(--amber);
-    font-size: 14px;
-    font-family: 'Lora', Georgia, serif;
-    cursor: pointer;
-    transition: background 0.1s, border-color 0.1s;
-    margin-top: 0.25rem;
-    -webkit-tap-highlight-color: transparent;
-    letter-spacing: 0.02em;
+  hr {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 1.25rem 0;
   }
 
-  .send-btn:hover { background: var(--bg2); border-color: var(--amber); }
-  .send-btn:active { opacity: 0.7; }
-  .send-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+  /* ── buttons ── */
+  .send-btn {
+    width: 100%;
+    background: var(--purple);
+    border: none;
+    border-radius: 12px;
+    padding: 14px;
+    color: #fff;
+    font-size: 15px;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 500;
+    cursor: pointer;
+    transition: opacity 0.15s, background 0.15s;
+    -webkit-tap-highlight-color: transparent;
+    letter-spacing: -0.01em;
+  }
+
+  .send-btn:hover { background: var(--purple-lo); }
+  .send-btn:active { opacity: 0.8; }
+  .send-btn:disabled { opacity: 0.35; cursor: not-allowed; }
+
+  .action-btn {
+    width: 100%;
+    background: none;
+    border: 1.5px solid var(--border);
+    border-radius: 12px;
+    padding: 12px;
+    color: var(--text-mid);
+    font-size: 14px;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 400;
+    cursor: pointer;
+    transition: border-color 0.15s, color 0.15s;
+    margin-bottom: 8px;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .action-btn:hover { border-color: var(--border-hi); color: var(--text); }
+  .action-btn.primary { background: var(--purple); border-color: var(--purple); color: #fff; font-weight: 500; }
+  .action-btn.primary:hover { background: var(--purple-lo); border-color: var(--purple-lo); }
+  .action-btn:disabled { opacity: 0.35; cursor: not-allowed; }
 
   /* ── status ── */
   .status {
@@ -343,86 +382,59 @@ title: little messages
   .status.ok { color: var(--green); }
   .status.err { color: var(--red); }
 
-  hr {
-    border: none;
-    border-top: 1px solid var(--border);
-    margin: 1.5rem 0;
-  }
-
   /* ── wavelength ── */
-  .game-state {
+  .wl-wins {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
     background: var(--bg2);
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    padding: 1.25rem;
-    margin-bottom: 1.75rem;
-  }
-
-  .game-state-label {
+    border-radius: 20px;
+    padding: 5px 12px;
     font-family: 'DM Mono', monospace;
-    font-size: 10px;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--text-lo);
-    margin-bottom: 6px;
-    display: block;
-  }
-
-  .game-state-value {
-    font-size: 15px;
-    color: var(--text);
-  }
-
-  .game-badge {
-    display: inline-block;
-    font-family: 'DM Mono', monospace;
-    font-size: 10px;
-    padding: 3px 8px;
-    border-radius: 3px;
-    border: 1px solid var(--border);
+    font-size: 11px;
     color: var(--text-mid);
+    margin-bottom: 1.25rem;
+  }
+
+  .wl-wins span { color: var(--amber); font-weight: 500; }
+
+  .turn-banner {
+    background: var(--purple);
+    border-radius: 12px;
+    padding: 12px 16px;
     margin-bottom: 1rem;
-  }
-
-  .game-badge.active { border-color: var(--amber-lo); color: var(--amber); }
-  .game-badge.idle { color: var(--text-lo); }
-
-  .hint-list {
-    list-style: none;
-    margin-bottom: 1rem;
-  }
-
-  .hint-list li {
-    font-size: 13px;
-    color: var(--text-mid);
-    padding: 4px 0;
-    border-bottom: 1px solid var(--border);
-    font-style: italic;
-  }
-
-  .hint-list li:last-child { border-bottom: none; }
-
-  .guess-list {
-    list-style: none;
-    margin-bottom: 1rem;
-  }
-
-  .guess-list li {
-    font-family: 'DM Mono', monospace;
-    font-size: 12px;
-    color: var(--text-mid);
-    padding: 3px 0;
-  }
-
-  .spectrum-display {
     display: flex;
     align-items: center;
     gap: 10px;
+  }
+
+  .turn-banner-icon { font-size: 18px; }
+
+  .turn-banner-text {
+    font-size: 13px;
+    font-weight: 500;
+    color: #fff;
+    line-height: 1.3;
+  }
+
+  .turn-banner-sub {
+    font-size: 11px;
+    color: rgba(255,255,255,0.7);
+    margin-top: 1px;
+  }
+
+  .spectrum-card {
+    background: var(--card);
+    border-radius: 14px;
+    padding: 1rem 1.25rem;
     margin-bottom: 1rem;
-    padding: 10px;
-    background: var(--bg3);
-    border-radius: 4px;
-    border: 1px solid var(--border);
+  }
+
+  .spectrum-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 8px;
   }
 
   .spectrum-end {
@@ -430,44 +442,63 @@ title: little messages
     font-size: 11px;
     color: var(--text-mid);
     flex-shrink: 0;
+    max-width: 80px;
+    text-align: center;
   }
 
   .spectrum-bar {
     flex: 1;
-    height: 2px;
-    background: var(--border);
-    border-radius: 2px;
+    height: 3px;
+    background: var(--border-hi);
+    border-radius: 3px;
+    position: relative;
   }
 
-  .wins-counter {
-    font-family: 'DM Mono', monospace;
-    font-size: 11px;
-    color: var(--text-lo);
-    text-align: right;
-    margin-bottom: 1rem;
-  }
-
-  .wins-counter span { color: var(--amber); }
-
-  .action-btn {
-    width: 100%;
-    background: none;
-    border: 1px solid var(--border);
-    border-radius: 4px;
-    padding: 10px;
-    color: var(--text-mid);
+  .hint-chip {
+    display: inline-block;
+    background: var(--bg3);
+    border-radius: 20px;
+    padding: 5px 12px;
     font-size: 13px;
-    font-family: 'Lora', Georgia, serif;
-    cursor: pointer;
-    transition: border-color 0.1s, color 0.1s;
-    margin-bottom: 8px;
-    -webkit-tap-highlight-color: transparent;
+    color: var(--text);
+    margin: 3px 3px 3px 0;
+    font-style: italic;
   }
 
-  .action-btn:hover { border-color: var(--border-hi); color: var(--text); }
-  .action-btn.primary { border-color: var(--amber-lo); color: var(--amber); }
-  .action-btn.primary:hover { border-color: var(--amber); }
-  .action-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+  .hints-wrap { margin-bottom: 1rem; }
+
+  .guess-row {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    color: var(--text-mid);
+    padding: 5px 0;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .guess-row:last-child { border-bottom: none; }
+
+  .guess-tag {
+    font-size: 11px;
+    padding: 2px 8px;
+    border-radius: 20px;
+    background: var(--bg3);
+    color: var(--text-lo);
+  }
+
+  .guess-tag.low { color: #6ab0e0; }
+  .guess-tag.high { color: #e07070; }
+
+  .gameover-number {
+    font-family: 'DM Mono', monospace;
+    font-size: 48px;
+    color: var(--purple-hi);
+    font-weight: 400;
+    text-align: center;
+    margin: 1rem 0;
+    letter-spacing: -0.02em;
+  }
 
   .number-input-row {
     display: flex;
@@ -476,13 +507,12 @@ title: little messages
   }
 
   .number-input-row input { flex: 1; }
-  .number-input-row button { flex-shrink: 0; width: auto; padding: 9px 16px; }
 
-  .game-section-title {
-    font-size: 13px;
-    color: var(--text-mid);
-    margin-bottom: 10px;
-    font-style: italic;
+  .number-input-row .action-btn {
+    flex-shrink: 0;
+    width: auto;
+    padding: 10px 18px;
+    margin-bottom: 0;
   }
 </style>
 </head>
@@ -518,8 +548,6 @@ title: little messages
       </div>
     </div>
 
-    <hr>
-
     <div class="section">
       <span class="label">your name</span>
       <input type="text" id="msg-sender" placeholder="who's this from?" maxlength="20">
@@ -530,8 +558,6 @@ title: little messages
       <textarea id="msg-text" placeholder="say something nice..." maxlength="120" oninput="updateCharCount()"></textarea>
       <p class="char-count" id="char-count">0 / 120</p>
     </div>
-
-    <hr>
 
     <div class="section">
       <span class="label">graphic</span>
@@ -545,8 +571,6 @@ title: little messages
         <div id="pixel-canvas"></div>
       </div>
     </div>
-
-    <hr>
 
     <div class="section">
       <span class="label">countdown</span>
@@ -571,8 +595,6 @@ title: little messages
       </div>
     </div>
 
-    <hr>
-
     <button class="send-btn" id="send-btn" onclick="sendMessage()">send to Sofia's Module</button>
     <p class="status" id="msg-status"></p>
 
@@ -583,83 +605,100 @@ title: little messages
   ══════════════════════════════════════════════════ -->
   <div id="tab-wavelength" class="tab-content">
 
-    <div id="wl-loading" style="color: var(--text-lo); font-family: 'DM Mono', monospace; font-size: 12px;">
-      loading game state...
+    <div id="wl-loading" style="color: var(--text-lo); font-family: 'DM Mono', monospace; font-size: 12px; padding: 2rem 0; text-align:center;">
+      loading...
     </div>
 
     <div id="wl-content" style="display:none">
 
-      <div class="wins-counter">first-guess wins: <span id="wl-wins">0</span></div>
+      <div class="wl-wins">first-guess wins — <span id="wl-wins">0</span></div>
 
-      <!-- idle: no active game -->
+      <!-- idle -->
       <div id="wl-idle" style="display:none">
-        <p class="game-section-title">no game in progress</p>
-        <div class="section">
-          <span class="label">you are</span>
-          <select id="wl-starter">
-            <option value="sofia">Sofia</option>
-            <option value="aj">AJ</option>
-          </select>
-        </div>
-        <div class="section">
-          <span class="label">number range</span>
-          <select id="wl-range">
-            <option value="10">1 – 10</option>
-            <option value="20">1 – 20</option>
-            <option value="100">1 – 100</option>
-          </select>
+        <div class="card" style="margin-bottom:1rem">
+          <p style="font-size:14px; color:var(--text-mid); margin-bottom:1rem; line-height:1.5">
+            one of you picks a secret number, the other tries to guess it using a spectrum you define together.
+          </p>
+          <div class="section" style="margin-bottom:1rem">
+            <span class="label">you are</span>
+            <select id="wl-starter">
+              <option value="sofia">Sofia</option>
+              <option value="aj">AJ</option>
+            </select>
+          </div>
+          <div>
+            <span class="label">number range</span>
+            <select id="wl-range">
+              <option value="10">1 – 10</option>
+              <option value="20">1 – 20</option>
+              <option value="100">1 – 100</option>
+            </select>
+          </div>
         </div>
         <button class="action-btn primary" onclick="startGame()">start a game</button>
         <p class="status" id="wl-idle-status"></p>
       </div>
 
-      <!-- waiting for category: guesser sets up the spectrum -->
+      <!-- awaiting category -->
       <div id="wl-awaiting-category" style="display:none">
-        <span class="game-badge active">game in progress</span>
-        <p class="game-section-title">your partner picked a number — give them something to work with</p>
-        <div class="section">
-          <span class="label">you are</span>
-          <select id="wl-cat-player">
-            <option value="sofia">Sofia</option>
-            <option value="aj">AJ</option>
-          </select>
-        </div>
-        <div class="section">
-          <span class="label">category</span>
-          <input type="text" id="wl-category" placeholder="e.g. temperature, spiciness, loudness" maxlength="40">
-        </div>
-        <div class="two-col" style="margin-bottom: 1.75rem">
+        <div class="turn-banner">
+          <span class="turn-banner-icon">🎯</span>
           <div>
-            <span class="label">the "1" end is...</span>
-            <input type="text" id="wl-low" placeholder="e.g. freezing" maxlength="20">
-          </div>
-          <div>
-            <span class="label" id="wl-high-label">the "10" end is...</span>
-            <input type="text" id="wl-high" placeholder="e.g. boiling" maxlength="20">
+            <div class="turn-banner-text">your turn to set the spectrum</div>
+            <div class="turn-banner-sub">your partner has a secret number — give them a way to describe it</div>
           </div>
         </div>
-        <button class="action-btn primary" onclick="submitCategory()">submit category</button>
+        <div class="card" style="margin-bottom:1rem">
+          <div class="section" style="margin-bottom:1rem">
+            <span class="label">you are</span>
+            <select id="wl-cat-player">
+              <option value="sofia">Sofia</option>
+              <option value="aj">AJ</option>
+            </select>
+          </div>
+          <div class="section" style="margin-bottom:1rem">
+            <span class="label">category</span>
+            <input type="text" id="wl-category" placeholder="e.g. temperature, loudness, spiciness" maxlength="40">
+          </div>
+          <div class="two-col">
+            <div>
+              <span class="label">the low end (1) is</span>
+              <input type="text" id="wl-low" placeholder="e.g. freezing" maxlength="20">
+            </div>
+            <div>
+              <span class="label" id="wl-high-label">the high end is</span>
+              <input type="text" id="wl-high" placeholder="e.g. boiling" maxlength="20">
+            </div>
+          </div>
+        </div>
+        <button class="action-btn primary" onclick="submitCategory()">submit spectrum</button>
         <p class="status" id="wl-cat-status"></p>
       </div>
 
-      <!-- hinting: number-picker gives a hint -->
+      <!-- hinting -->
       <div id="wl-hinting" style="display:none">
-        <span class="game-badge active">game in progress</span>
+        <div class="turn-banner">
+          <span class="turn-banner-icon">💡</span>
+          <div>
+            <div class="turn-banner-text">give a hint</div>
+            <div class="turn-banner-sub">help your partner find the number without saying it</div>
+          </div>
+        </div>
 
-        <div class="game-state" id="wl-hint-spectrum-display" style="display:none">
-          <span class="game-state-label">the spectrum</span>
-          <div class="spectrum-display">
+        <div class="spectrum-card">
+          <span class="label">the spectrum</span>
+          <div class="spectrum-row">
             <span class="spectrum-end" id="wl-hint-low"></span>
             <div class="spectrum-bar"></div>
             <span class="spectrum-end" id="wl-hint-high"></span>
           </div>
-          <span class="game-state-label">category</span>
-          <p class="game-state-value" id="wl-hint-cat" style="margin-bottom:0.5rem"></p>
-          <span class="game-state-label">your secret number</span>
-          <p class="game-state-value" id="wl-hint-number" style="font-family:'DM Mono',monospace; color: var(--amber)"></p>
+          <div style="margin-top:10px">
+            <span class="label">category</span>
+            <p style="font-size:14px; color:var(--text)" id="wl-hint-cat"></p>
+          </div>
         </div>
 
-        <div class="section">
+        <div class="section" style="margin-bottom:1rem">
           <span class="label">you are</span>
           <select id="wl-hint-player">
             <option value="sofia">Sofia</option>
@@ -667,14 +706,14 @@ title: little messages
           </select>
         </div>
 
-        <div id="wl-previous-hints" style="display:none; margin-bottom: 1rem">
-          <span class="label">hints so far</span>
-          <ul class="hint-list" id="wl-hint-list"></ul>
+        <div id="wl-prev-hints-wrap" style="display:none; margin-bottom:1rem">
+          <span class="label">hints sent</span>
+          <div class="hints-wrap" id="wl-hint-chips"></div>
         </div>
 
-        <div id="wl-previous-guesses" style="display:none; margin-bottom: 1rem">
+        <div id="wl-prev-guesses-wrap" style="display:none; margin-bottom:1rem">
           <span class="label">guesses so far</span>
-          <ul class="guess-list" id="wl-guess-list"></ul>
+          <div id="wl-hint-guesses"></div>
         </div>
 
         <div class="section">
@@ -685,38 +724,44 @@ title: little messages
         <p class="status" id="wl-hint-status"></p>
       </div>
 
-      <!-- guessing: guesser responds with a number -->
+      <!-- guessing -->
       <div id="wl-guessing" style="display:none">
-        <span class="game-badge active">game in progress</span>
+        <div class="turn-banner">
+          <span class="turn-banner-icon">🔢</span>
+          <div>
+            <div class="turn-banner-text">make a guess</div>
+            <div class="turn-banner-sub" id="wl-guess-range-sub"></div>
+          </div>
+        </div>
 
-        <div class="game-state">
-          <span class="game-state-label">the spectrum</span>
-          <div class="spectrum-display">
+        <div class="spectrum-card">
+          <span class="label">the spectrum</span>
+          <div class="spectrum-row">
             <span class="spectrum-end" id="wl-guess-low"></span>
             <div class="spectrum-bar"></div>
             <span class="spectrum-end" id="wl-guess-high"></span>
           </div>
-          <span class="game-state-label">category</span>
-          <p class="game-state-value" id="wl-guess-cat" style="margin-bottom:0.5rem"></p>
-          <span class="game-state-label">range</span>
-          <p class="game-state-value" id="wl-guess-range" style="font-family:'DM Mono',monospace; font-size:13px; color: var(--text-mid)"></p>
+          <div style="margin-top:10px">
+            <span class="label">category</span>
+            <p style="font-size:14px; color:var(--text)" id="wl-guess-cat"></p>
+          </div>
         </div>
 
-        <div style="margin-bottom: 1rem">
-          <span class="label">hints</span>
-          <ul class="hint-list" id="wl-guess-hint-list"></ul>
+        <div style="margin-bottom:1rem">
+          <span class="label">hints from your partner</span>
+          <div class="hints-wrap" id="wl-guess-hint-chips"></div>
         </div>
 
-        <div id="wl-guess-prev" style="display:none; margin-bottom: 1rem">
+        <div id="wl-guess-prev-wrap" style="display:none; margin-bottom:1rem">
           <span class="label">your previous guesses</span>
-          <ul class="guess-list" id="wl-guess-prev-list"></ul>
+          <div id="wl-guess-prev-rows"></div>
         </div>
 
         <div class="section">
           <span class="label">your guess</span>
           <div class="number-input-row">
             <input type="number" id="wl-guess-input" placeholder="enter a number" min="1">
-            <button class="action-btn primary" style="margin-bottom:0" onclick="submitGuess()">guess</button>
+            <button class="action-btn primary" onclick="submitGuess()">guess</button>
           </div>
         </div>
         <p class="status" id="wl-guess-status"></p>
@@ -724,27 +769,30 @@ title: little messages
 
       <!-- game over -->
       <div id="wl-gameover" style="display:none">
-        <span class="game-badge" style="border-color: var(--green); color: var(--green)">correct!</span>
-        <div class="game-state">
-          <span class="game-state-label">the number was</span>
-          <p class="game-state-value" id="wl-over-number" style="font-family:'DM Mono',monospace; color:var(--amber); font-size:24px; margin-bottom:0.5rem"></p>
-          <span class="game-state-label">guesses taken</span>
-          <p class="game-state-value" id="wl-over-guesses" style="font-family:'DM Mono',monospace; font-size:13px; color:var(--text-mid)"></p>
+        <div class="turn-banner" style="background: var(--bg3); border: 1.5px solid var(--green)">
+          <span class="turn-banner-icon">🎉</span>
+          <div>
+            <div class="turn-banner-text" style="color:var(--green)">correct!</div>
+            <div class="turn-banner-sub" id="wl-over-sub"></div>
+          </div>
+        </div>
+        <div class="card" style="text-align:center">
+          <span class="label">the number was</span>
+          <div class="gameover-number" id="wl-over-number"></div>
+          <p style="font-size:13px; color:var(--text-mid)" id="wl-over-guesses"></p>
         </div>
         <button class="action-btn primary" onclick="resetGame()">play again</button>
         <p class="status" id="wl-over-status"></p>
       </div>
 
-    </div><!-- /wl-content -->
-  </div><!-- /tab-wavelength -->
+    </div>
+  </div>
 
-</div><!-- /page -->
+</div>
 
 <script>
-// ─── config ────────────────────────────────────────────────────────────────
 const WORKER = 'https://wild-queen-9847.ajbacolor4.workers.dev';
 
-// ─── helpers ───────────────────────────────────────────────────────────────
 async function readFile(file) {
   const res = await fetch(`${WORKER}/data?file=${file}`);
   if (!res.ok) throw new Error(`read ${file} failed`);
@@ -766,7 +814,6 @@ function showStatus(id, msg, type) {
   el.className = `status ${type}`;
 }
 
-// ─── tabs ──────────────────────────────────────────────────────────────────
 function switchTab(name, btn) {
   document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
   document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
@@ -775,7 +822,7 @@ function switchTab(name, btn) {
   if (name === 'wavelength') loadGameState();
 }
 
-// ─── messages tab ──────────────────────────────────────────────────────────
+// ── messages ──
 let selectedModule = 'sofia';
 let moduleData = { sofia: {}, aj: {} };
 let currentTool = 'draw';
@@ -914,7 +961,7 @@ async function sendMessage() {
   btn.disabled = false;
 }
 
-// ─── wavelength tab ────────────────────────────────────────────────────────
+// ── wavelength ──
 let gameState = null;
 
 function wlShow(id) {
@@ -941,58 +988,67 @@ function renderGameState() {
   const s = gameState;
   const rangeMax = s.range_max || 10;
 
-  if (s.status === 'idle') {
-    wlShow('wl-idle');
-    return;
-  }
+  if (s.status === 'idle') { wlShow('wl-idle'); return; }
 
   if (s.status === 'awaiting_category') {
     wlShow('wl-awaiting-category');
-    document.getElementById('wl-high-label').textContent = `the "${rangeMax}" end is...`;
+    document.getElementById('wl-high-label').textContent = `the high end (${rangeMax}) is`;
     return;
   }
 
   if (s.status === 'hinting') {
     wlShow('wl-hinting');
-    // show spectrum info to number picker
-    document.getElementById('wl-hint-spectrum-display').style.display = 'block';
-    document.getElementById('wl-hint-low').textContent = `1 — ${s.spectrum_low}`;
-    document.getElementById('wl-hint-high').textContent = `${rangeMax} — ${s.spectrum_high}`;
+    // spectrum info — no secret number shown here
+    document.getElementById('wl-hint-low').textContent = `1\n${s.spectrum_low}`;
+    document.getElementById('wl-hint-high').textContent = `${rangeMax}\n${s.spectrum_high}`;
     document.getElementById('wl-hint-cat').textContent = s.category;
-    document.getElementById('wl-hint-number').textContent = s.secret_number;
 
-    // hints list
     const hints = s.hints || [];
     const guesses = s.guesses || [];
+
     if (hints.length > 0) {
-      document.getElementById('wl-previous-hints').style.display = 'block';
-      document.getElementById('wl-hint-list').innerHTML =
-        hints.map(h => `<li>${h}</li>`).join('');
+      document.getElementById('wl-prev-hints-wrap').style.display = 'block';
+      document.getElementById('wl-hint-chips').innerHTML =
+        hints.map(h => `<span class="hint-chip">${h}</span>`).join('');
     }
+
     if (guesses.length > 0) {
-      document.getElementById('wl-previous-guesses').style.display = 'block';
-      document.getElementById('wl-guess-list').innerHTML =
-        guesses.map(g => `<li>guess: ${g}</li>`).join('');
+      document.getElementById('wl-prev-guesses-wrap').style.display = 'block';
+      document.getElementById('wl-hint-guesses').innerHTML =
+        guesses.map(g => `
+          <div class="guess-row">
+            <span>${g}</span>
+            <span class="guess-tag ${g < s.secret_number ? 'low' : 'high'}">
+              ${g < s.secret_number ? 'too low' : 'too high'}
+            </span>
+          </div>`).join('');
     }
     return;
   }
 
   if (s.status === 'guessing') {
     wlShow('wl-guessing');
-    document.getElementById('wl-guess-low').textContent = `1 — ${s.spectrum_low}`;
-    document.getElementById('wl-guess-high').textContent = `${rangeMax} — ${s.spectrum_high}`;
+    document.getElementById('wl-guess-range-sub').textContent = `pick a number from 1 to ${rangeMax}`;
+    document.getElementById('wl-guess-low').textContent = `1\n${s.spectrum_low}`;
+    document.getElementById('wl-guess-high').textContent = `${rangeMax}\n${s.spectrum_high}`;
     document.getElementById('wl-guess-cat').textContent = s.category;
-    document.getElementById('wl-guess-range').textContent = `1 to ${rangeMax}`;
+    document.getElementById('wl-guess-input').max = rangeMax;
 
     const hints = s.hints || [];
-    document.getElementById('wl-guess-hint-list').innerHTML =
-      hints.map(h => `<li>${h}</li>`).join('');
+    document.getElementById('wl-guess-hint-chips').innerHTML =
+      hints.map(h => `<span class="hint-chip">${h}</span>`).join('');
 
     const guesses = s.guesses || [];
     if (guesses.length > 0) {
-      document.getElementById('wl-guess-prev').style.display = 'block';
-      document.getElementById('wl-guess-prev-list').innerHTML =
-        guesses.map(g => `<li>↳ ${g} — too ${g < s.secret_number ? 'low' : 'high'}</li>`).join('');
+      document.getElementById('wl-guess-prev-wrap').style.display = 'block';
+      document.getElementById('wl-guess-prev-rows').innerHTML =
+        guesses.map(g => `
+          <div class="guess-row">
+            <span>${g}</span>
+            <span class="guess-tag ${g < s.secret_number ? 'low' : 'high'}">
+              ${g < s.secret_number ? 'too low' : 'too high'}
+            </span>
+          </div>`).join('');
     }
     return;
   }
@@ -1001,8 +1057,12 @@ function renderGameState() {
     wlShow('wl-gameover');
     document.getElementById('wl-over-number').textContent = s.secret_number;
     const guesses = s.guesses || [];
-    document.getElementById('wl-over-guesses').textContent =
-      guesses.length === 1 ? 'got it in 1 guess!' : `got it in ${guesses.length} guesses`;
+    const firstGuess = guesses.length === 1;
+    document.getElementById('wl-over-sub').textContent = firstGuess
+      ? '🌟 first guess win!' : `got it in ${guesses.length} guesses`;
+    document.getElementById('wl-over-guesses').textContent = firstGuess
+      ? 'perfect score — first guess wins: ' + (s.first_guess_wins || 0)
+      : `guesses: ${guesses.join(', ')}`;
     return;
   }
 }
@@ -1014,11 +1074,10 @@ async function startGame() {
 
   showStatus('wl-idle-status', 'starting...', '');
 
-  // notify the other module
   const otherModule = starter === 'sofia' ? 'aj' : 'sofia';
   try {
     const otherData = await readFile(otherModule);
-    await writeFile(otherModule, { ...otherData, notification: 'wavelength game started! check the site' });
+    await writeFile(otherModule, { ...otherData, notification: 'wavelength: game started!' });
   } catch(e) {}
 
   try {
@@ -1045,7 +1104,6 @@ async function submitCategory() {
   const category = document.getElementById('wl-category').value.trim();
   const low = document.getElementById('wl-low').value.trim();
   const high = document.getElementById('wl-high').value.trim();
-  const player = document.getElementById('wl-cat-player').value;
 
   if (!category || !low || !high) {
     showStatus('wl-cat-status', 'fill in all fields', 'err');
@@ -1054,21 +1112,13 @@ async function submitCategory() {
 
   showStatus('wl-cat-status', 'submitting...', '');
 
-  // notify the number picker
-  const starterModule = gameState.started_by;
   try {
-    const starterData = await readFile(starterModule);
-    await writeFile(starterModule, { ...starterData, notification: 'wavelength: your category is ready!' });
+    const starterData = await readFile(gameState.started_by);
+    await writeFile(gameState.started_by, { ...starterData, notification: 'wavelength: spectrum is ready — give a hint!' });
   } catch(e) {}
 
   try {
-    await writeFile('game', {
-      ...gameState,
-      status: 'hinting',
-      category,
-      spectrum_low: low,
-      spectrum_high: high
-    });
+    await writeFile('game', { ...gameState, status: 'hinting', category, spectrum_low: low, spectrum_high: high });
     showStatus('wl-cat-status', 'submitted!', 'ok');
     await loadGameState();
   } catch(e) {
@@ -1078,15 +1128,11 @@ async function submitCategory() {
 
 async function submitHint() {
   const hint = document.getElementById('wl-hint-input').value.trim();
-  const player = document.getElementById('wl-hint-player').value;
-
   if (!hint) { showStatus('wl-hint-status', 'enter a hint', 'err'); return; }
 
   showStatus('wl-hint-status', 'sending...', '');
-
   const hints = [...(gameState.hints || []), hint];
 
-  // notify guesser
   const otherModule = gameState.started_by === 'sofia' ? 'aj' : 'sofia';
   try {
     const otherData = await readFile(otherModule);
@@ -1106,12 +1152,11 @@ async function submitHint() {
 async function submitGuess() {
   const guess = parseInt(document.getElementById('wl-guess-input').value);
   if (isNaN(guess) || guess < 1 || guess > gameState.range_max) {
-    showStatus('wl-guess-status', `enter a number between 1 and ${gameState.range_max}`, 'err');
+    showStatus('wl-guess-status', `pick a number between 1 and ${gameState.range_max}`, 'err');
     return;
   }
 
   showStatus('wl-guess-status', 'submitting...', '');
-
   const guesses = [...(gameState.guesses || []), guess];
   const correct = guess === gameState.secret_number;
 
@@ -1119,11 +1164,12 @@ async function submitGuess() {
     const firstGuessWin = guesses.length === 1;
     const wins = (gameState.first_guess_wins || 0) + (firstGuessWin ? 1 : 0);
 
-    // notify starter
-    const starterModule = gameState.started_by;
     try {
-      const starterData = await readFile(starterModule);
-      await writeFile(starterModule, { ...starterData, notification: firstGuessWin ? 'wavelength: correct on the first try!!' : 'wavelength: they got it!' });
+      const starterData = await readFile(gameState.started_by);
+      await writeFile(gameState.started_by, {
+        ...starterData,
+        notification: firstGuessWin ? 'wavelength: first guess win!!' : 'wavelength: they got it!'
+      });
     } catch(e) {}
 
     try {
@@ -1133,11 +1179,9 @@ async function submitGuess() {
       showStatus('wl-guess-status', 'something went wrong', 'err');
     }
   } else {
-    // wrong — go back to hinting
-    const starterModule = gameState.started_by;
     try {
-      const starterData = await readFile(starterModule);
-      await writeFile(starterModule, {
+      const starterData = await readFile(gameState.started_by);
+      await writeFile(gameState.started_by, {
         ...starterData,
         notification: `wavelength: they guessed ${guess} — ${guess < gameState.secret_number ? 'too low' : 'too high'}. give another hint!`
       });
@@ -1145,7 +1189,7 @@ async function submitGuess() {
 
     try {
       await writeFile('game', { ...gameState, status: 'hinting', guesses });
-      showStatus('wl-guess-status', `${guess < gameState.secret_number ? 'too low' : 'too high'} — your partner gets another hint`, 'err');
+      showStatus('wl-guess-status', `${guess < gameState.secret_number ? 'too low' : 'too high'} — wait for another hint`, 'err');
       document.getElementById('wl-guess-input').value = '';
       await loadGameState();
     } catch(e) {
@@ -1156,8 +1200,6 @@ async function submitGuess() {
 
 async function resetGame() {
   showStatus('wl-over-status', 'resetting...', '');
-
-  // clear notifications
   try {
     const sofiaData = await readFile('sofia');
     await writeFile('sofia', { ...sofiaData, notification: '' });
@@ -1184,12 +1226,10 @@ async function resetGame() {
   }
 }
 
-// ─── service worker ────────────────────────────────────────────────────────
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => navigator.serviceWorker.register('/sw.js').catch(() => {}));
 }
 
-// ─── init ──────────────────────────────────────────────────────────────────
 buildCanvas();
 loadModuleData();
 </script>
