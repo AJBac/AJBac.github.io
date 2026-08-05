@@ -1074,11 +1074,17 @@ async function startGame() {
 
   showStatus('wl-idle-status', 'starting...', '');
 
-  const otherModule = starter === 'sofia' ? 'aj' : 'sofia';
-  try {
-    const otherData = await readFile(otherModule);
-    await writeFile(otherModule, { ...otherData, notification: 'wavelength: game started!' });
-  } catch(e) {}
+const otherModule = starter === 'sofia' ? 'aj' : 'sofia';
+try {
+  const otherData = await readFile(otherModule);
+  await writeFile(otherModule, { ...otherData, notification: 'wavelength: game started! set the spectrum' });
+} catch(e) {}
+
+// Tell the starter their secret number via their own module
+try {
+  const starterData = await readFile(starter);
+  await writeFile(starter, { ...starterData, notification: `wavelength: your number is ${secret}. wait for the spectrum!` });
+} catch(e) {}
 
   try {
     await writeFile('game', {
@@ -1112,10 +1118,13 @@ async function submitCategory() {
 
   showStatus('wl-cat-status', 'submitting...', '');
 
-  try {
-    const starterData = await readFile(gameState.started_by);
-    await writeFile(gameState.started_by, { ...starterData, notification: 'wavelength: spectrum is ready — give a hint!' });
-  } catch(e) {}
+try {
+  const starterData = await readFile(gameState.started_by);
+  await writeFile(gameState.started_by, {
+    ...starterData,
+    notification: `wavelength: your number is ${gameState.secret_number}. spectrum ready — give a hint!`
+  });
+} catch(e) {}
 
   try {
     await writeFile('game', { ...gameState, status: 'hinting', category, spectrum_low: low, spectrum_high: high });
@@ -1183,7 +1192,7 @@ async function submitGuess() {
       const starterData = await readFile(gameState.started_by);
       await writeFile(gameState.started_by, {
         ...starterData,
-        notification: `wavelength: they guessed ${guess} — ${guess < gameState.secret_number ? 'too low' : 'too high'}. give another hint!`
+        notification: `wavelength: #${gameState.secret_number} — they guessed ${guess} (${guess < gameState.secret_number ? 'too low' : 'too high'}). give another hint!`
       });
     } catch(e) {}
 
