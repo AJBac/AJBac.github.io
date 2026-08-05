@@ -1,16 +1,12 @@
 {
-  "status": "gameover",
-  "started_by": "aj",
-  "range_max": 20,
-  "secret_number": 4,
-  "category": "gfdgfd",
-  "spectrum_low": "bad",
-  "spectrum_high": "good",
-  "hints": [
-    "Hmm"
-  ],
-  "guesses": [
-    4
-  ],
+  "status": "idle",
+  "started_by": "",
+  "range_max": 10,
+  "secret_number": 0,
+  "category": "",
+  "spectrum_low": "",
+  "spectrum_high": "",
+  "hints": [],
+  "guesses": [],
   "first_guess_wins": 1
 }
