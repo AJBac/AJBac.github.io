@@ -3,8 +3,8 @@
   "short_name": "messages",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#130f08",
-  "theme_color": "#130f08",
+  "background_color": "#111008",
+  "theme_color": "#111008",
   "icons": [
     {
       "src": "/icons/apple-touch-icon.png",
