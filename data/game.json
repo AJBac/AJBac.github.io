@@ -1,5 +1,5 @@
 {
-  "status": "guessing",
+  "status": "gameover",
   "started_by": "aj",
   "range_max": 20,
   "secret_number": 1,
@@ -11,7 +11,8 @@
     "insect"
   ],
   "guesses": [
-    2
+    2,
+    1
   ],
   "first_guess_wins": 1
 }
