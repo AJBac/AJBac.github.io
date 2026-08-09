@@ -1,11 +1,11 @@
 {
-  "status": "awaiting_category",
+  "status": "hinting",
   "started_by": "sofia",
   "range_max": 10,
   "secret_number": 10,
-  "category": "",
-  "spectrum_low": "",
-  "spectrum_high": "",
+  "category": "things you would do for a million",
+  "spectrum_low": "would pass",
+  "spectrum_high": "would do it no prob",
   "hints": [],
   "guesses": [],
   "first_guess_wins": 1
