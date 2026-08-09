@@ -1,14 +1,12 @@
 {
-  "status": "guessing",
+  "status": "hinting",
   "started_by": "sofia",
   "range_max": 10,
   "secret_number": 10,
   "category": "things you would do for a million",
   "spectrum_low": "would pass",
   "spectrum_high": "would do it no prob",
-  "hints": [
-    "Eat Sofia puh"
-  ],
+  "hints": [],
   "guesses": [],
   "first_guess_wins": 1
 }
