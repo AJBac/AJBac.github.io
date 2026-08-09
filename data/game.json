@@ -1,24 +1,12 @@
 {
-  "status": "gameover",
-  "started_by": "aj",
-  "range_max": 20,
-  "secret_number": 19,
-  "category": "dream home explanation",
-  "spectrum_low": "the worst",
-  "spectrum_high": "the best",
-  "hints": [
-    "huge backyard tire swing small attic",
-    "new spectrum",
-    "g",
-    "18",
-    "19"
-  ],
-  "guesses": [
-    7,
-    10,
-    15,
-    18,
-    19
-  ],
+  "status": "idle",
+  "started_by": "",
+  "range_max": 10,
+  "secret_number": 0,
+  "category": "",
+  "spectrum_low": "",
+  "spectrum_high": "",
+  "hints": [],
+  "guesses": [],
   "first_guess_wins": 1
 }
