@@ -2118,7 +2118,7 @@
   ],
   "countdown_target": 1787097600,
   "countdown_label": "sofia move out",
-  "notification": "wavelength: you got it first try!!",
+  "notification": "",
   "game_active": false,
   "game_number": 0
 }
