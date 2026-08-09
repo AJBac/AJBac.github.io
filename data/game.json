@@ -1,5 +1,5 @@
 {
-  "status": "guessing",
+  "status": "hinting",
   "started_by": "aj",
   "range_max": 20,
   "secret_number": 19,
@@ -9,6 +9,8 @@
   "hints": [
     "huge backyard tire swing small attic"
   ],
-  "guesses": [],
+  "guesses": [
+    7
+  ],
   "first_guess_wins": 1
 }
