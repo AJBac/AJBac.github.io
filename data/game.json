@@ -1,5 +1,5 @@
 {
-  "status": "guessing",
+  "status": "hinting",
   "started_by": "aj",
   "range_max": 20,
   "secret_number": 19,
@@ -13,7 +13,8 @@
   ],
   "guesses": [
     7,
-    10
+    10,
+    15
   ],
   "first_guess_wins": 1
 }
