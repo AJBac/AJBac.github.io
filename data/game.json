@@ -1,5 +1,5 @@
 {
-  "status": "hinting",
+  "status": "guessing",
   "started_by": "aj",
   "range_max": 20,
   "secret_number": 19,
@@ -8,7 +8,8 @@
   "spectrum_high": "the best",
   "hints": [
     "huge backyard tire swing small attic",
-    "new spectrum"
+    "new spectrum",
+    "g"
   ],
   "guesses": [
     7,
