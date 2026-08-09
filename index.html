@@ -1063,7 +1063,7 @@ title: little messages
       if (updateCd) {
         const dv = document.getElementById('cd-date').value;
         const lv = document.getElementById('cd-label').value.trim();
-        if (dv) countdownTarget = Math.floor(new Date(dv).getTime() / 1000);
+        if (dv) countdownTarget = Math.floor(new Date(dv + 'T00:00:00').getTime() / 1000); 
         if (lv) countdownLabel = lv;
       }
 
