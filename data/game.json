@@ -1,12 +1,14 @@
 {
-  "status": "hinting",
+  "status": "guessing",
   "started_by": "aj",
   "range_max": 20,
   "secret_number": 1,
   "category": "animals",
   "spectrum_low": "smallest",
   "spectrum_high": "biggest",
-  "hints": [],
+  "hints": [
+    "bug"
+  ],
   "guesses": [],
   "first_guess_wins": 1
 }
