@@ -7,8 +7,11 @@
   "spectrum_low": "the worst",
   "spectrum_high": "the best",
   "hints": [
-    "huge backyard tire swing small attic"
+    "huge backyard tire swing small attic",
+    "new spectrum"
   ],
-  "guesses": [],
+  "guesses": [
+    7
+  ],
   "first_guess_wins": 1
 }
