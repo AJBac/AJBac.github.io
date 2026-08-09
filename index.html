@@ -1074,7 +1074,28 @@ async function startGame() {
 
   showStatus('wl-idle-status', 'starting...', '');
 
-const otherModule = starter === 'sofia' ? 'aj' : 'sofia';
+  const otherModule = starter === 'sofia' ? 'aj' : 'sofia';
+
+try {
+  const starterData = await readFile(starter);
+  await writeFile(starter, {
+    ...starterData,
+    game_active: true,
+    game_number: secret,
+    notification: `wavelength: your number is ${secret}`
+  });
+} catch(e) {}
+
+try {
+  const otherData = await readFile(otherModule);
+  await writeFile(otherModule, {
+    ...otherData,
+    game_active: true,
+    game_number: 0,
+    notification: 'wavelength: game started!'
+  });
+} catch(e) {}
+ 
 try {
   const otherData = await readFile(otherModule);
   await writeFile(otherModule, { ...otherData, notification: 'wavelength: game started! set the spectrum' });
@@ -1209,7 +1230,13 @@ async function submitGuess() {
 
 async function resetGame() {
   showStatus('wl-over-status', 'resetting...', '');
-  try {
+
+
+ const sofiaData = await readFile('sofia');
+ await writeFile('sofia', { ...sofiaData, notification: '', game_active: false, game_number: 0 });
+ const ajData = await readFile('aj');
+ await writeFile('aj', { ...ajData, notification: '', game_active: false, game_number: 0 });
+ try {
     const sofiaData = await readFile('sofia');
     await writeFile('sofia', { ...sofiaData, notification: '' });
     const ajData = await readFile('aj');
