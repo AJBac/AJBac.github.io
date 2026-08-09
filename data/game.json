@@ -1,5 +1,5 @@
 {
-  "status": "guessing",
+  "status": "hinting",
   "started_by": "aj",
   "range_max": 20,
   "secret_number": 19,
@@ -11,7 +11,8 @@
     "new spectrum"
   ],
   "guesses": [
-    7
+    7,
+    10
   ],
   "first_guess_wins": 1
 }
