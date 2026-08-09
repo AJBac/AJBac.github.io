@@ -1,5 +1,5 @@
 {
-  "status": "guessing",
+  "status": "gameover",
   "started_by": "sofia",
   "range_max": 10,
   "secret_number": 10,
@@ -9,6 +9,8 @@
   "hints": [
     "Eat Sofia puh"
   ],
-  "guesses": [],
-  "first_guess_wins": 1
+  "guesses": [
+    10
+  ],
+  "first_guess_wins": 2
 }
