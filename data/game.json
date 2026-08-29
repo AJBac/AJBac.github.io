@@ -1,8 +1,8 @@
 {
-  "status": "idle",
-  "started_by": "",
+  "status": "awaiting_category",
+  "started_by": "aj",
   "range_max": 10,
-  "secret_number": 0,
+  "secret_number": 7,
   "category": "",
   "spectrum_low": "",
   "spectrum_high": "",
