@@ -2118,7 +2118,7 @@
   ],
   "countdown_target": 1790395200,
   "countdown_label": "Next visit",
-  "notification": "",
-  "game_active": false,
+  "notification": "wavelength: game started!",
+  "game_active": true,
   "game_number": 0
 }
